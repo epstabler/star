@@ -51,6 +51,6 @@ See comments in that file and the many other examples there.
 
 ## OT via composition and pruning: ot.py
 
-Given an *unextended* umbutt, if it is not deterministic on an input, we compose and prune with the constraints in rank order, until either there are no more constraints, or the umbutt is deterministic. See comments in the file.
+Given a umbutt and constraints in order of priority, if umbutt is not deterministic, compose with next constraint and prune non-optimal paths, until either there are no more constraints, or the umbutt is deterministic. See comments in the file.
 
 *** in progress ***
