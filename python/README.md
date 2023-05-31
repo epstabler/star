@@ -27,7 +27,7 @@ For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-
 
 ## Deterministic, unranked, extended multi bottom-up tree transduction: duxmbutt.py
 
-Transitions have the form (treeIn, treeOut, conditions),
+Transitions have the form (treeIn, treeOut, conditions, weight),
 where conditions are either ``'True'`` or
 boolean tests on bound label variables that use only builtin
 Python operations. For details about variables and binding
