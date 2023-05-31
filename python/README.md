@@ -43,7 +43,7 @@ For demo examples, type:
 # python duxmbutt.py
 ```
 
-The U transducer rules accordingly can define transitions that apply to any number of children -- 
+The U transducer rules can define transitions that apply to any number of children -- 
 so this is in effect a kind of polymorphism: the function defined by a rule can operate on 
 a nodes labeled X with various arities. The *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
 See comments in that file and the many other examples there.
