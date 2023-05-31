@@ -1,8 +1,12 @@
 /* A simple implementation that derives Fig 1b from xbar example
-   using transparent representation of the 9 rules listed in the paper
+   using transparent representation of the 9 rules listed in the paper,
+   and discussed in Appendix C.
 
   For tcl/tk tree display, uncomment the 3 lines that say
     "uncomment for tree display"
+
+  See genXbar.pl for a syllabified version of this structure,
+  and rules for generating the prosodic structures of Figure 5
 */
 :- use_module(pptree,[pptree/1]).
 :- use_module(library(apply),[maplist/3]).

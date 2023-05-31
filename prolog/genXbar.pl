@@ -12,6 +12,9 @@
 
   See warning below about the very simple method used here to explore
   derivations. Search for "WARNING"
+
+  (See genXbarToFig1b.pl for the unsyllabified Figure 1,
+  which is also discussed in the paper)
 */
 :- use_module(pptree,[pptree/1]).
 :- use_module(library(apply),[maplist/3]).
