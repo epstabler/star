@@ -33,10 +33,6 @@ boolean tests on bound label variables that use only builtin
 Python operations. For details about variables and binding
 see code and comments. See umbutts/\*Star\* for *- and +- extended examples.
 
-The U transducer rules accordingly can define transitions that apply to any number of children -- 
-so this is in effect a kind of polymorphism: the function defined by a rule can operate on 
-a nodes labeled X with various arities, even unbounded arities.
-
 For VERBOSE output, set ``VERBOSE = True`` in ``duxmbutt.py``
 
 None of the basic functions other than graphical display require NLTK. (if needed, ``pip install nltk``).
@@ -46,7 +42,10 @@ For demo examples, type:
 ```
 # python duxmbutt.py
 ```
-The *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
+
+The U transducer rules accordingly can define transitions that apply to any number of children -- 
+so this is in effect a kind of polymorphism: the function defined by a rule can operate on 
+a nodes labeled X with various arities. The *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
 See comments in that file and the many other examples there.
 
 ## OT via composition and pruning: ot.py
