@@ -8,19 +8,12 @@ and possibly a basis for further experimentation and development.
 
 ## prolog/ 
 
-Simple, first SWI-Prolog 9.x implementation of rule R and a simple syntax to prosodic structure transducer.
-There is also an extension of the R implementation to handle the example in Appendix B.
+Simple, first SWI-Prolog 9.x implementation of rule R and a simple syntax to prosodic structure transducer that derives the prosodic structures in Figure 1b and Figure 5.
 
-Some tiny example grammars are provided,
-including a grammar that derives examples of Irish coordination in the paper,
-and a grammar that derives the XX copy language.
+Besides a grammar that derives examples of Irish coordination in the paper, some other toy example grammars are provided, including and a grammar that derives the XX copy language. There is also an extension of the R implementation to handle the example in Appendix B.
 
 ## python/ 
 
-Python 3.x CKY-like parser for *-MG, implementing rule K (without head movement).
-Some tiny example grammars are provided,
-including a grammar that derives examples of Irish coordination in the paper,
-and a grammar that derives the XX copy language.
+Python 3.x CKY-like parser for *-MG, implementing rule K (without head movement). Some tiny example grammars are provided, including a grammar that derives examples of Irish coordination in the paper, and a grammar that derives the XX copy language.
 
 An implementation of deterministic unranked extended multi bottom-up tree transducers.
-
