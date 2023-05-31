@@ -1,0 +1,62 @@
+wm minsize . 20 20
+frame .f
+canvas .c -xscrollcommand {.hscroll set} -yscrollcommand {.vscroll set}	-scrollregion {-10p -10p 1000p 1000p} -bg white
+scrollbar .hscroll -orient horizontal
+pack .hscroll -side bottom -fill x -in .f
+frame .szb
+pack .szb -side bottom -fill x -in .f
+button .szb.1 -text "dump ps" -font 6x10 -command {.c postscript -colormode gray -file "ltree.ps"}
+pack .szb.1 -side right
+label .szb.2 -text " wish_tree.pl" -font -*-times-bold-r-normal--12-120-*'
+pack .szb.2 -side left
+pack .c -side top -expand 1 -fill both -in .f
+scrollbar .vscroll -orient vertical
+pack .vscroll -side right -fill y
+pack .f -side left -expand 1 -fill both
+.vscroll config -command {.c yview}
+.hscroll config -command {.c xview}
+wm geometry . 380x428-5+40
+.c config -scrollregion {-10p -10p 757p 534p}
+.c create text 4p 0p -text {a} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 4p 12p 4p 22p
+.c create text 4p 22p -text {b} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c delete all
+wm geometry . 380x428-5+40
+.c config -scrollregion {-10p -10p 938p 556p}
+.c create text 93p 0p -text {doc} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 93p 12p 27p 22p
+.c create text 27p 22p -text {main_idea} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 27p 34p 27p 44p
+.c create text 27p 44p -text {preamble} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 93p 12p 91p 22p
+.c create text 91p 22p -text {sec1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 91p 34p 74p 44p
+.c create text 74p 44p -text {1.1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 91p 34p 108p 44p
+.c create text 108p 44p -text {1.2} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 93p 12p 159p 22p
+.c create text 159p 22p -text {sec2} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 159p 34p 142p 44p
+.c create text 142p 44p -text {2.1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 159p 34p 176p 44p
+.c create text 176p 44p -text {2.2} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c delete all
+wm geometry . 380x428-5+40
+.c config -scrollregion {-10p -10p 936p 556p}
+.c create text 91p 0p -text {doc} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 91p 12p 25p 22p
+.c create text 25p 22p -text {intro} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 25p 34p 25p 44p
+.c create text 25p 44p -text {preamble} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 91p 12p 89p 22p
+.c create text 89p 22p -text {sec1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 89p 34p 72p 44p
+.c create text 72p 44p -text {1.1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 89p 34p 106p 44p
+.c create text 106p 44p -text {1.2} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 91p 12p 157p 22p
+.c create text 157p 22p -text {sec2} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 157p 34p 140p 44p
+.c create text 140p 44p -text {2.1} -anchor n -font "-*-times-bold-r-normal--12-120-*"
+.c create line 157p 34p 174p 44p
+.c create text 174p 44p -text {2.2} -anchor n -font "-*-times-bold-r-normal--12-120-*"

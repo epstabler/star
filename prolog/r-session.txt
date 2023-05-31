@@ -1,0 +1,994 @@
+> swipl
+swipl
+Welcome to SWI-Prolog (threaded, 64 bits, version 9.0.4)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit https://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [r].
+[r].
+exEn1 uses a simple 9 item grammar to illustrate a simplified wh-movement,
+in which the moved element, which food, occurs in two sets.
+As usual, type ; to display alternative parses...
+
+exXX2, exXX4, exXX8 use a simple 6 item grammar to illustrate parses
+of the copy language {xx| x in {a,b}*}.
+It is a good test for MG parses -- it uses all the rules and has many movements.
+Since numeration order does not matter, it is not obvious that this is the
+copy language until you linearize the derivations!
+The whole grammar is given as the numeration in exXX4.
+As usual, type ; to display alternative parses...
+
+exGa0, exGa00, exGa000, exGa1, exGa2, use a simple grammar to illustrate parses
+of unbounded flat coordination in Irish Gaelic, inspired by Bennett, Elfner and McCloskey 2016.
+Any number of coordinates is OK!
+As usual, type ; to display alternative parses...
+
+true.
+
+?- exEn1.
+exEn1.
+Attempting to find derivations for this numeration:
+
+[
+    [which]-[n]-[d,w],
+    [food]-[]-[n],
+    []-[v,w]-[c],
+    [the]-[n]-[d],
+    [cat]-[]-[n],
+    [likes]-[d,d]-[v],
+    []-[v]-[c],
+    [jo]-[]-[d],
+    [knows]-[c,d]-[v] ].
+
+success!
+
+[
+    []-[v]-[c],
+    [
+        [
+            [knows]-[c,d]-[v],
+            [
+                [
+                    []-[v,w]-[c],
+                    [
+                        [
+                            [likes]-[d,d]-[v],
+                            [
+                                [the]-[n]-[d],
+                                [cat]-[]-[n] ] ],
+                        [
+                            [which]-[n]-[d,w],
+                            [food]-[]-[n] ] ] ],
+                [
+                    [which]-[n]-[d,w],
+                    [food]-[]-[n] ] ] ],
+        [jo]-[]-[d] ] ].
+
+
+0.008807999999999996 seconds
+true 
+
+
+?- exXX2.
+exXX2.
+Attempting to find derivations for this numeration:
+
+[
+    [a]-[a,l]-[c,l],
+    [a]-[c,r]-[a,r],
+    []-[]-[c,r,l],
+    []-[c,r,l]-[c] ].
+
+success!
+
+[
+    [
+        [
+            []-[c,r,l]-[c],
+            [
+                [
+                    [a]-[a,l]-[c,l],
+                    [
+                        [
+                            [a]-[c,r]-[a,r],
+                            []-[]-[c,r,l] ],
+                        []-[]-[c,r,l] ] ],
+                []-[]-[c,r,l] ] ],
+        [
+            [
+                [a]-[c,r]-[a,r],
+                []-[]-[c,r,l] ],
+            []-[]-[c,r,l] ] ],
+    [
+        [
+            [a]-[a,l]-[c,l],
+            [
+                [
+                    [a]-[c,r]-[a,r],
+                    []-[]-[c,r,l] ],
+                []-[]-[c,r,l] ] ],
+        []-[]-[c,r,l] ] ].
+
+
+0.00017500000000000848 seconds
+true 
+
+
+?- exXX4.
+exXX4.
+Attempting to find derivations for this numeration:
+
+[
+    [a]-[a,l]-[c,l],
+    [a]-[c,r]-[a,r],
+    [b]-[b,l]-[c,l],
+    [b]-[c,r]-[b,r],
+    []-[]-[c,r,l],
+    []-[c,r,l]-[c] ].
+
+success!
+
+[
+    [
+        [
+            []-[c,r,l]-[c],
+            [
+                [
+                    [b]-[b,l]-[c,l],
+                    [
+                        [
+                            [b]-[c,r]-[b,r],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ] ],
+                [
+                    [
+                        [a]-[a,l]-[c,l],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ],
+                    []-[]-[c,r,l] ] ] ],
+        [
+            [
+                [b]-[c,r]-[b,r],
+                [
+                    [
+                        [a]-[a,l]-[c,l],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ],
+                    []-[]-[c,r,l] ] ],
+            [
+                [
+                    [a]-[c,r]-[a,r],
+                    []-[]-[c,r,l] ],
+                []-[]-[c,r,l] ] ] ],
+    [
+        [
+            [b]-[b,l]-[c,l],
+            [
+                [
+                    [b]-[c,r]-[b,r],
+                    [
+                        [
+                            [a]-[a,l]-[c,l],
+                            [
+                                [
+                                    [a]-[c,r]-[a,r],
+                                    []-[]-[c,r,l] ],
+                                []-[]-[c,r,l] ] ],
+                        []-[]-[c,r,l] ] ],
+                [
+                    [
+                        [a]-[c,r]-[a,r],
+                        []-[]-[c,r,l] ],
+                    []-[]-[c,r,l] ] ] ],
+        [
+            [
+                [a]-[a,l]-[c,l],
+                [
+                    [
+                        [a]-[c,r]-[a,r],
+                        []-[]-[c,r,l] ],
+                    []-[]-[c,r,l] ] ],
+            []-[]-[c,r,l] ] ] ].
+
+
+0.00034000000000000696 seconds
+true 
+
+
+?- exXX8.
+exXX8.
+Attempting to find derivations for this numeration:
+
+[
+    [a]-[a,l]-[c,l],
+    [a]-[c,r]-[a,r],
+    [b]-[b,l]-[c,l],
+    [b]-[c,r]-[b,r],
+    [a]-[a,l]-[c,l],
+    [a]-[c,r]-[a,r],
+    [b]-[b,l]-[c,l],
+    [b]-[c,r]-[b,r],
+    []-[]-[c,r,l],
+    []-[c,r,l]-[c] ].
+
+success!
+
+[
+    [
+        [
+            []-[c,r,l]-[c],
+            [
+                [
+                    [b]-[b,l]-[c,l],
+                    [
+                        [
+                            [b]-[c,r]-[b,r],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            [
+                                                [
+                                                    [b]-[b,l]-[c,l],
+                                                    [
+                                                        [
+                                                            [b]-[c,r]-[b,r],
+                                                            [
+                                                                [
+                                                                    [a]-[a,l]-[c,l],
+                                                                    [
+                                                                        [
+                                                                            [a]-[c,r]-[a,r],
+                                                                            []-[]-[c,r,l] ],
+                                                                        []-[]-[c,r,l] ] ],
+                                                                []-[]-[c,r,l] ] ],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ] ],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ] ],
+                                        [
+                                            [
+                                                [b]-[c,r]-[b,r],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ] ] ],
+                                [
+                                    [
+                                        [b]-[b,l]-[c,l],
+                                        [
+                                            [
+                                                [b]-[c,r]-[b,r],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ] ],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ] ] ],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                [
+                                    [
+                                        [b]-[b,l]-[c,l],
+                                        [
+                                            [
+                                                [b]-[c,r]-[b,r],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ] ],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ] ] ],
+                [
+                    [
+                        [a]-[a,l]-[c,l],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                [
+                                    [
+                                        [b]-[b,l]-[c,l],
+                                        [
+                                            [
+                                                [b]-[c,r]-[b,r],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ] ],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ] ],
+                    [
+                        [
+                            [b]-[b,l]-[c,l],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ],
+                        [
+                            [
+                                [a]-[a,l]-[c,l],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ],
+                            []-[]-[c,r,l] ] ] ] ] ],
+        [
+            [
+                [b]-[c,r]-[b,r],
+                [
+                    [
+                        [a]-[a,l]-[c,l],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                [
+                                    [
+                                        [b]-[b,l]-[c,l],
+                                        [
+                                            [
+                                                [b]-[c,r]-[b,r],
+                                                [
+                                                    [
+                                                        [a]-[a,l]-[c,l],
+                                                        [
+                                                            [
+                                                                [a]-[c,r]-[a,r],
+                                                                []-[]-[c,r,l] ],
+                                                            []-[]-[c,r,l] ] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ] ],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ] ],
+                    [
+                        [
+                            [b]-[b,l]-[c,l],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ],
+                        [
+                            [
+                                [a]-[a,l]-[c,l],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ],
+                            []-[]-[c,r,l] ] ] ] ],
+            [
+                [
+                    [a]-[c,r]-[a,r],
+                    [
+                        [
+                            [b]-[b,l]-[c,l],
+                            [
+                                [
+                                    [b]-[c,r]-[b,r],
+                                    [
+                                        [
+                                            [a]-[a,l]-[c,l],
+                                            [
+                                                [
+                                                    [a]-[c,r]-[a,r],
+                                                    []-[]-[c,r,l] ],
+                                                []-[]-[c,r,l] ] ],
+                                        []-[]-[c,r,l] ] ],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ] ],
+                        [
+                            [
+                                [a]-[a,l]-[c,l],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ],
+                            []-[]-[c,r,l] ] ] ],
+                [
+                    [
+                        [b]-[c,r]-[b,r],
+                        [
+                            [
+                                [a]-[a,l]-[c,l],
+                                [
+                                    [
+                                        [a]-[c,r]-[a,r],
+                                        []-[]-[c,r,l] ],
+                                    []-[]-[c,r,l] ] ],
+                            []-[]-[c,r,l] ] ],
+                    [
+                        [
+                            [a]-[c,r]-[a,r],
+                            []-[]-[c,r,l] ],
+                        []-[]-[c,r,l] ] ] ] ] ],
+    [
+        [
+            [b]-[b,l]-[c,l],
+            [
+                [
+                    [b]-[c,r]-[b,r],
+                    [
+                        [
+                            [a]-[a,l]-[c,l],
+                            [
+                                [
+                                    [a]-[c,r]-[a,r],
+                                    [
+                                        [
+                                            [b]-[b,l]-[c,l],
+                                            [
+                                                [
+                                                    [b]-[c,r]-[b,r],
+                                                    [
+                                                        [
+                                                            [a]-[a,l]-[c,l],
+                                                            [
+                                                                [
+                                                                    [a]-[c,r]-[a,r],
+                                                                    []-[]-[c,r,l] ],
+                                                                []-[]-[c,r,l] ] ],
+                                                        []-[]-[c,r,l] ] ],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ] ],
+                                        [
+                                            [
+                                                [a]-[a,l]-[c,l],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            []-[]-[c,r,l] ] ] ],
+                                [
+                                    [
+                                        [b]-[c,r]-[b,r],
+                                        [
+                                            [
+                                                [a]-[a,l]-[c,l],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            []-[]-[c,r,l] ] ],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ] ] ],
+                        [
+                            [
+                                [b]-[b,l]-[c,l],
+                                [
+                                    [
+                                        [b]-[c,r]-[b,r],
+                                        [
+                                            [
+                                                [a]-[a,l]-[c,l],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            []-[]-[c,r,l] ] ],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ] ] ],
+                [
+                    [
+                        [a]-[c,r]-[a,r],
+                        [
+                            [
+                                [b]-[b,l]-[c,l],
+                                [
+                                    [
+                                        [b]-[c,r]-[b,r],
+                                        [
+                                            [
+                                                [a]-[a,l]-[c,l],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            []-[]-[c,r,l] ] ],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ] ],
+                    [
+                        [
+                            [b]-[c,r]-[b,r],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ] ] ] ],
+        [
+            [
+                [a]-[a,l]-[c,l],
+                [
+                    [
+                        [a]-[c,r]-[a,r],
+                        [
+                            [
+                                [b]-[b,l]-[c,l],
+                                [
+                                    [
+                                        [b]-[c,r]-[b,r],
+                                        [
+                                            [
+                                                [a]-[a,l]-[c,l],
+                                                [
+                                                    [
+                                                        [a]-[c,r]-[a,r],
+                                                        []-[]-[c,r,l] ],
+                                                    []-[]-[c,r,l] ] ],
+                                            []-[]-[c,r,l] ] ],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ] ],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ] ],
+                    [
+                        [
+                            [b]-[c,r]-[b,r],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ] ] ],
+            [
+                [
+                    [b]-[b,l]-[c,l],
+                    [
+                        [
+                            [b]-[c,r]-[b,r],
+                            [
+                                [
+                                    [a]-[a,l]-[c,l],
+                                    [
+                                        [
+                                            [a]-[c,r]-[a,r],
+                                            []-[]-[c,r,l] ],
+                                        []-[]-[c,r,l] ] ],
+                                []-[]-[c,r,l] ] ],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ] ],
+                [
+                    [
+                        [a]-[a,l]-[c,l],
+                        [
+                            [
+                                [a]-[c,r]-[a,r],
+                                []-[]-[c,r,l] ],
+                            []-[]-[c,r,l] ] ],
+                    []-[]-[c,r,l] ] ] ] ] ].
+
+
+0.0016049999999999953 seconds
+true 
+
+
+?- exGa0.
+exGa0.
+Attempting to find derivations for this numeration:
+
+[
+    []-[tm]-[c],
+    []-[v]-[tm],
+    [is]-[a]-[v],
+    [cuma]-[lpred]-[a],
+    [shamhradh]-[]-[d],
+    [e]-[]-[d],
+    []-[pred,d]-[lpred],
+    [na]-[d]-[pred] ].
+
+success!
+
+[
+    []-[tm]-[c],
+    [
+        []-[v]-[tm],
+        [
+            [is]-[a]-[v],
+            [
+                [cuma]-[lpred]-[a],
+                [
+                    [
+                        []-[pred,d]-[lpred],
+                        [
+                            [na]-[d]-[pred],
+                            [shamhradh]-[]-[d] ] ],
+                    [e]-[]-[d] ] ] ] ] ].
+
+
+0.00027599999999999847 seconds
+true 
+
+
+?- exGa00.
+exGa00.
+Attempting to find derivations for this numeration:
+
+[
+    [no]-[A,p(A)]-[A],
+    [shamhradh]-[]-[d],
+    [gheimhreadh]-[]-[d] ].
+
+success!
+
+[
+    [
+        [no]-[d,p(d)]-[d],
+        [shamhradh]-[]-[d] ],
+    [gheimhreadh]-[]-[d] ].
+
+
+1.9000000000005124e-5 seconds
+true 
+
+
+?- exGa000.
+exGa000.
+Attempting to find derivations for this numeration:
+
+[
+    [no]-[A,p(A)]-[A],
+    [shamhradh]-[]-[d],
+    [gheimhreadh]-[]-[d],
+    [fhomar]-[]-[d] ].
+
+success!
+
+[
+    [
+        [no]-[d,p(d)]-[d],
+        [shamhradh]-[]-[d] ],
+    [gheimhreadh]-[]-[d],
+    [fhomar]-[]-[d] ].
+
+
+3.100000000000325e-5 seconds
+true 
+
+
+?- exGa1.
+exGa1.
+Attempting to find derivations for this numeration:
+
+[
+    []-[tm]-[c],
+    []-[v]-[tm],
+    [is]-[a]-[v],
+    [cuma]-[lpred]-[a],
+    []-[pred,d]-[lpred],
+    [na]-[d]-[pred],
+    [shamhradh]-[]-[d],
+    [na]-[d]-[pred],
+    [gheimhreadh]-[]-[d],
+    [no]-[A,p(A)]-[A],
+    [e]-[]-[d] ].
+
+success!
+
+[
+    []-[tm]-[c],
+    [
+        []-[v]-[tm],
+        [
+            [is]-[a]-[v],
+            [
+                [cuma]-[lpred]-[a],
+                [
+                    [
+                        []-[pred,d]-[lpred],
+                        [
+                            [
+                                [no]-[pred,p(pred)]-[pred],
+                                [
+                                    [na]-[d]-[pred],
+                                    [gheimhreadh]-[]-[d] ] ],
+                            [
+                                [na]-[d]-[pred],
+                                [shamhradh]-[]-[d] ] ] ],
+                    [e]-[]-[d] ] ] ] ] ].
+
+
+0.007749999999999993 seconds
+true 
+
+
+?- exGa2.
+exGa2.
+Attempting to find derivations for this numeration:
+
+[
+    []-[tm]-[c],
+    []-[v]-[tm],
+    [is]-[a]-[v],
+    [cuma]-[lpred]-[a],
+    []-[pred,d]-[lpred],
+    [na]-[d]-[pred],
+    [shamhradh]-[]-[d],
+    [na]-[d]-[pred],
+    [fhomar]-[]-[d],
+    [na]-[d]-[pred],
+    [gheimhreadh]-[]-[d],
+    [no]-[A,p(A)]-[A],
+    [e]-[]-[d] ].
+
+success!
+
+[
+    []-[tm]-[c],
+    [
+        []-[v]-[tm],
+        [
+            [is]-[a]-[v],
+            [
+                [cuma]-[lpred]-[a],
+                [
+                    [
+                        []-[pred,d]-[lpred],
+                        [
+                            [
+                                [no]-[pred,p(pred)]-[pred],
+                                [
+                                    [na]-[d]-[pred],
+                                    [gheimhreadh]-[]-[d] ] ],
+                            [
+                                [na]-[d]-[pred],
+                                [fhomar]-[]-[d] ],
+                            [
+                                [na]-[d]-[pred],
+                                [shamhradh]-[]-[d] ] ] ],
+                    [e]-[]-[d] ] ] ] ] ].
+
+
+0.304635 seconds
+true 
+
+
+?- 

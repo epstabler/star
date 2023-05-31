@@ -1,0 +1,83 @@
+> swipl
+Welcome to SWI-Prolog (threaded, 64 bits, version 9.0.4)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit https://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [genXbarToFig1b].
+true.
+
+?- example1b.
+
+Attempting to transduce this syntactic structure:
+cp /[
+    c /[],
+    tmp /[
+        tm /[
+            v /[
+                is /[]],
+            tm /[]],
+        vp /[
+            v /[],
+            ap /[
+                a /[
+                    cuma /[]],
+                lpredp /[
+                    dp /[
+                        e /[]],
+                    lpred1 /[
+                        lpred /[],
+                        bp /[
+                            predp /[
+                                pred /[
+                                    na /[]],
+                                dp /[
+                                    shamhradh /[]]],
+                            b1 /[
+                                b /[
+                                    no /[]],
+                                predp /[
+                                    pred /[
+                                        na /[]],
+                                    dp /[
+                                        gheimhreadh /[]]]]]]]]]]].
+
+success!
+Output prosodic structure:
+
+qi /[
+    i /[
+        w /[
+            is /[]],
+        phi /[
+            w /[
+                cuma /[]],
+            phi /[
+                phi /[
+                    w /[
+                        e /[]]],
+                phi /[
+                    phi /[
+                        w /[
+                            na /[]],
+                        phi /[
+                            w /[
+                                shamhradh /[]]]],
+                    phi /[
+                        w /[
+                            no /[]],
+                        phi /[
+                            w /[
+                                na /[]],
+                            phi /[
+                                w /[
+                                    gheimhreadh /[]]]]]]]]]].
+
+
+0.000675999999999996 seconds
+true 
+
+?- halt.
+

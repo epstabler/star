@@ -1,0 +1,104 @@
+> swipl
+swipl
+Welcome to SWI-Prolog (threaded, 64 bits, version 9.0.4)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit https://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [rAppB].
+[rAppB].
+exEn1 uses a simple 9 item grammar to illustrate a simplified wh-movement,
+in which the moved element, which food, occurs in two sets.
+As usual, type ; to display alternative parses...
+
+exXX2, exXX4, exXX8 use a simple 6 item grammar to illustrate parses
+of the copy language {xx| x in {a,b}*}.
+It is a good test for MG parses -- it uses all the rules and has many movements.
+Since numeration order does not matter, it is not obvious that this is the
+copy language until you linearize the derivations!
+The whole grammar is given as the numeration in exXX4.
+As usual, type ; to display alternative parses...
+
+exGa0, exGa00, exGa000, exGa1, exGa2, use a simple grammar to illustrate parses
+of unbounded flat coordination in Irish Gaelic, inspired by Bennett, Elfner and McCloskey 2016.
+Any number of coordinates is OK!
+As usual, type ; to display alternative parses...
+
+exGa3, exGa4 use a simple grammar to illustrate parses
+of adjoined relative clauses and adjectives in Irish Gaelic.
+Any number of adjuncts is OK!
+As usual, type ; to display alternative parses...
+
+*Warning: Redefining & so it allows both coordination and adjunction*
+Warning: /Users/es/Dropbox/tex/summer22/output-SCiL/star/prolog/rAppB.pl:11:
+Warning:    Redefined static procedure & / 5
+Warning:    Previously defined at /Users/es/Dropbox/tex/summer22/output-SCiL/star/prolog/r.pl:38
+true.
+
+?- exGa3.
+exGa3.
+Attempting to find derivations for this numeration:
+
+[
+    [na]-[n]-[d],
+    [sigoai]-[]-[n],
+    [alainn]-[]-[a],
+    [alainn]-[]-[a],
+    [alainn]-[]-[a] ].
+
+success!
+
+[
+    [na]-[n]-[d],
+    [sigoai]-[]-[n],
+    [alainn]-[]-[a],
+    [alainn]-[]-[a],
+    [alainn]-[]-[a] ].
+
+
+0.007193000000000005 seconds
+true 
+
+
+?- exGa4.
+exGa4.
+Attempting to find derivations for this numeration:
+
+[
+    []-[tm,op]-[c],
+    []-[v]-[tm],
+    []-[]-[d,op],
+    [ghoid]-[d,d]-[v],
+    [na]-[n]-[d],
+    [sigoai]-[]-[n],
+    [an]-[n]-[d],
+    [ghirseach]-[]-[n] ].
+
+success!
+
+[
+    [an]-[n]-[d],
+    [ghirseach]-[]-[n],
+    [
+        [
+            []-[tm,op]-[c],
+            [
+                []-[v]-[tm],
+                [
+                    [
+                        [ghoid]-[d,d]-[v],
+                        []-[]-[d,op] ],
+                    [
+                        [na]-[n]-[d],
+                        [sigoai]-[]-[n] ] ] ] ],
+        []-[]-[d,op] ] ].
+
+
+0.00036399999999998933 seconds
+true 
+
+
+?- 
+
