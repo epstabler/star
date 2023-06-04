@@ -12,6 +12,9 @@ class U(list):
 
           subtrees(self): returns all subtrees of self
 
+          symbolSubtrees(self): returns all subtrees of self
+             with input/output symbol at root
+
           labels(self): returns labels of every node in self
 
           match(self,tree,bindings): returns (augmented) bindings,
