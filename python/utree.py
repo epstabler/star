@@ -8,7 +8,9 @@ class U(list):
     This U tree structure is a stripped down version of NLTK Tree,
     but with root(self) instead of label(self), and we add:
 
-          children(self): returns children (i.e. subtrees) of self
+          children(self): returns children of self
+
+          subtrees(self): returns all subtrees of self
 
           labels(self): returns labels of every node in self
 
@@ -50,6 +52,20 @@ class U(list):
 
     def children(self):
         return self._children
+
+    def subtrees(self):
+        result = [self]
+        for c in self._children: result.extend(c.subtrees())
+        return result
+
+    def symbolSubtrees(self):
+        """ distinguishing states from symbols by requirement that state._root begins with 'q' """
+        if self._root and self._root[0] != 'q':
+            result = [self]
+            for c in self._children: result.extend(c.symbolSubtrees())
+        else:
+            result = []
+        return result
 
     def labels(self):
         labels = [self._root]
@@ -147,12 +163,6 @@ class U(list):
             assert len(stack[0][1]) == 1
         tree = stack[0][1][0]
 
-        # If the tree has an extra level with node='', then get rid of
-        # it.  E.g.: "((S (NP ...) (VP ...)))"
-        # ES this shouldn't be necessary!
-        #if remove_empty_top_bracketing and tree._root == "" and len(tree) == 1:
-        #    tree = tree[0]
-        # return the tree.
         return tree
 
     @classmethod
@@ -317,15 +327,18 @@ class U(list):
             return(bindings)
 
         # collect embedded matches
-        elif self._root == t._root and \
-             len(self._children) == len(t._children):
-            try:
-                for p in zip(self._children,t._children):
-                    b = p[0].match(p[1], bindings)
-                    if b == None:
-                        return(None)
-                return(bindings)
-            except:
+        else:
+            if self._root == t._root and \
+               len(self._children) == len(t._children):
+                try:
+                    for p in zip(self._children,t._children):
+                        b = p[0].match(p[1], bindings)
+                        if b == None:
+                            return(None)
+                    return(bindings)
+                except:
+                    return(None)
+            else:
                 return(None)
 
     # ////////////////////////////////////////////////////////////
@@ -408,6 +421,18 @@ def test1c():
     result = U('a', [U('a', [])]).match(U('a', [U('b', [])]), [])
     if result != None:
         print('test1c ERROR:', result)
+
+def test1d():
+    """ simple test of match: all vars"""
+    result = U('TV0', [U('TV1', [])]).match(U('TV2', [U('TV3', [])]), [])
+    if result != [(U('TV0', [U('TV1', [])]), U('TV2', [U('TV3', [])]))]:
+        print('test1d ERROR:', result)
+
+def test1e():
+    """ simple test of match: all vars"""
+    result = U('TV0', [U('TV0', [])]).match(U('TV3', [U('TV4', [])]), [])
+    if result != [(U('TV0', [U('TV0', [])]), U('TV3', [U('TV4', [])]))]:
+        print('test1e ERROR:', result)
 
 def test2a():
     """ simple test of LV0 match """

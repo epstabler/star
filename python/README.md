@@ -1,11 +1,15 @@
 # *-MG parser and tree transducers
 
+The files in this directory have some long examples that test and explain what has been implemented here.
+(And more detail about steps of the computations is provided by editing the files to set VERBOSE = True)
+Studying the examples, in order, is a good way to become familiar with this code.
+
 ## Unranked trees: utree.py
 
 The class U of unranked trees is defined. 
 
 This is based on the NLTK class Tree, but, for the transductions,
-match and instantiate operations are added.
+match and instantiate operations are added (among other things -- see comments in file).
 Conversion to and from NLTK Trees can be done via their string representations,
 so NLTK graphical display is available with this conversion.
 
@@ -43,9 +47,9 @@ For demo examples, type:
 # python duxmbutt.py
 ```
 
-The U transducer rules can define transitions that apply to any number of children -- 
-so this is in effect a kind of polymorphism: the function defined by a rule can operate on 
-a nodes labeled X with various arities. The *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
+\*-extended U transducer rules can apply to any number of children.
+This is in effect a kind of polymorphism: the function defined by these rules can operate on 
+nodes labeled X regardless of its arity. This *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
 See comments in that file and the many other examples there.
 
 ## OT via composition and pruning: ot.py

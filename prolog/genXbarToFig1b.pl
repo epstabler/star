@@ -69,6 +69,10 @@ fig1b( qi /[
 head(X) :- member(X, [c,tm,v,a,lpred,pred,b]). 
 phrase(XP) :- atom_chars(XP, L), last(L, p).
 
+% This def of gen is very simple, but does it find all derivations?
+%  In contrast, the python implementation stays
+%  very close to Engelfriet, Lilin, and Maletti 2009,
+%  aiming for code with the completeness guarantees they establish
 gen(T, Out) :- rule(T, Out).
 gen(X/L, Out) :- maplist(gen,L,Subtrees), rule(X/Subtrees, Out).
 gen(T,T).

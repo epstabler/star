@@ -6,6 +6,9 @@
        Engelfriet, Lilin, and Maletti 2009
        https://link.springer.com/article/10.1007/s00236-009-0105-8}
     
+    This implementation can be applied to nondeterministic uxmbutts,
+    but whenever it finds a rule that can be applied, it applies it.
+
     Each transducer is given as a list of rules.
     Rules have the form 
         (treeIn, treeOut, conditions, weight),
@@ -20,10 +23,9 @@
     contain more structure than the next node and state subtrees.
     Label variables and tree variables with conditions are allowed.
 
-    NB: This implementation is very preliminary -- providing an
-    initial check on how the ideas in the paper can work together, and
-    providing a basis for further experimentation and development.
-
+    NB: The print format for U trees (based on NLTK Tree format) is
+    defined in utree.py, and this is used in printing transducer
+    rules.
 """
 import re
 from utree import *
@@ -43,43 +45,59 @@ if VERBOSE: print('duxmbutt sets VERBOSE = True')
 
 ruleWeight = re.compile("(.*)\s+(x+)\s*$")
 
-def duxmbutt(rules, treeIn):
-    """ Since the tranducer is here assumed to be deterministic,
-        the first rules that *can* apply *are* applied.
+def deterministic(uxmbutt):
+    """ given uxmbutt,
+        return True iff no 2 rules are such that the left side of one is
+          an instance of any subtree of the left side of another,
+          where the relevant subtrees ('symbolSubtrees')
+          are those with a symbol at the root (not a state)
+
+    See Engelfriet, Lilin, and Maletti 2009 section 3 (p7)
     """
-    if isinstance(treeIn,U):
-        if treeIn.children() == []:
-            result = step(rules, treeIn)
-            if result == None:
-                return(treeIn)
-            else:
-                return(result)
+    leftSideParts = []
+    for r in uxmbutt:
+        left = r[0]
+        for t in leftSideParts:
+            ok = t.match(left, [])
+            if ok != None:
+                return False
+        leftSideParts.extend(left.symbolSubtrees())
+    return True
+
+def duxmbutt(rules, treeIn):
+    """ whenever rules apply, they are applied """
+    if treeIn._children == [] or treeIn._root[0] == 'q':
+        out = step(rules, treeIn)
+        if out == treeIn:
+            return out
         else:
-            newtree = U(treeIn.root(),[duxmbutt(rules,t) for t in treeIn.children()])
-            result = step(rules, newtree)
-            if result == None:
-                return(newtree)
-            else:
-                return(result)
+            return duxmbutt(rules, out)
     else:
-        print('ERROR - not a tree: %r' % treeIn)
+        out = step(rules, U(treeIn._root,[duxmbutt(rules, c) for c in treeIn._children]))
+        if out == treeIn:
+            return out
+        else:
+            return duxmbutt(rules, out)
 
 def step(rules, treeIn):
     """ if any rule applies to treeIn, return result """
     for r in rules:
         bindings = r[0].match(treeIn, [])
         if VERBOSE:
-            print('\nrule = ' , r)
-            print('tree = ' , repr(treeIn))
+            print('\nrule = ' , rule2string(r))
+            print('tree = ' , treeIn)
             print('bindings = %r' % bindings)
         if bindings != None and condition(r[2], bindings):
             result = r[1].instantiate(bindings)
             if VERBOSE:
-                print('%r = True' % r[2])
+                print("condition %r = 'True'" % r[2])
                 print('result = %r' % result)
-            return(result)
-    else:
-        if VERBOSE: print('no rule applies')
+            if result != None:
+                return(result)
+            else:
+                return treeIn
+    if VERBOSE: print('no rule applies')
+    return treeIn
 
 def condition(c, bindings):
     """ 
@@ -155,39 +173,40 @@ if __name__ == '__main__':
     #g,s,cat = (propCalc, U('&', [U('Q', []), U('not',[U('P', [])])]) , 'q1')
     #g,s,cat = (propCalc, U('&', [U('Q', [])]) , 'NONE')
 
-    #g,s,cat = (propCalcId, U('P',[]) , '(q0 id)')
-    #g,s,cat = (propCalcId, U('v', [U('P', []), U('Q', [])] ) , '(q1 id)')
-    #g,s,cat = (propCalcId, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 id)')
+    #g,s,cat = (propCalcId, U('P',[]) , '(q0 )')
+    #g,s,cat = (propCalcId, U('v', [U('P', []), U('Q', [])] ) , '(q1 )')
+    #g,s,cat = (propCalcId, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 )')
     #g,s,cat = (propCalcId, U('&', [U('Q', [])]) , 'NONE')
 
     #g,s,cat = (propCalcIdUMBUTT, U('P',[]) , 'q0')
     #g,s,cat = (propCalcIdUMBUTT, U('&', [U('P', []), U('Q', [])]) , 'q0')
     #g,s,cat = (propCalcIdUMBUTT, U('v', [U('P', []), U('Q', [])] ) , 'q1')
-    g,s,cat = (propCalcIdUMBUTT, U('&', [U('Q', []), U('not',[U('P', [])])]) , 'q1')
+    #g,s,cat = (propCalcIdUMBUTT, U('&', [U('Q', []), U('not',[U('P', [])])]) , 'q1')
     #g,s,cat = (propCalcIdUMBUTT, U('&', [U('Q', [])]) , 'NONE')
 
-    #g,s,cat = (propCalcStar, U('P',[]) , '(q0 id)')
-    #g,s,cat = (propCalcStar, U('v', [U('P', []), U('Q', [])] ) , '(q1 id)')
-    #g,s,cat = (propCalcStar, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 id)')
-    #g,s,cat = (propCalcStar, U('&', [U('Q', [])]) , 'NB: q1')
-    #g,s,cat = (propCalcStar, U('&', []) , 'NB: q1')
-    #g,s,cat = (propCalcStar, U('v', [U('Q', [])]) , 'NB: q1')
-    #g,s,cat = (propCalcStar, U('v', []) , 'NB: q0')
-    #g,s,cat = (propCalcStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('P', [])]) , 'NB: q0')
-    #g,s,cat = (propCalcStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', [])]), 'NB: q1')
+    #g,s,cat = (propCalcStar, U('P',[]) , '(q0 )')
+    #g,s,cat = (propCalcStar, U('v', [U('P', []), U('Q', [])] ) , '(q1 )')
+    #g,s,cat = (propCalcStar, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 )')
+    #g,s,cat = (propCalcStar, U('&', [U('Q', [])]) , 'q1')
+    #g,s,cat = (propCalcStar, U('&', []) , 'q1')
+    #g,s,cat = (propCalcStar, U('v', [U('Q', [])]) , 'q1')
+    #g,s,cat = (propCalcStar, U('v', []) , 'q0')
+    #g,s,cat = (propCalcStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('P', [])]) , 'q0')
+    #g,s,cat = (propCalcStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', [])]), 'q1')
 
-    #g,s,cat = (propCalcIdStar, U('P',[]) , '(q0 id)')
-    #g,s,cat = (propCalcIdStar, U('v', [U('P', []), U('Q', [])] ) , '(q1 id)')
-    #g,s,cat = (propCalcIdStar, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 id)')
-    #g,s,cat = (propCalcIdStar, U('&', [U('Q', [])]) , 'NB: q1')
-    #g,s,cat = (propCalcIdStar, U('&', []) , 'NB: q1')
-    #g,s,cat = (propCalcIdStar, U('v', [U('Q', [])]) , 'NB: q1')
-    #g,s,cat = (propCalcIdStar, U('v', []) , 'NB: q0')
-    #g,s,cat = (propCalcIdStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('P', [])]) , 'NB: q0')
-    #g,s,cat = (propCalcIdStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', [])]), 'NB: q1')
+    #g,s,cat = (propCalcIdStar, U('P',[]) , '(q0 )')
+    #g,s,cat = (propCalcIdStar, U('v', [U('P', []), U('Q', [])] ) , '(q1 )')
+    #g,s,cat = (propCalcIdStar, U('&', [U('Q', []), U('not',[U('P', [])])]) , '(q1 )')
+    #g,s,cat = (propCalcIdStar, U('&', [U('Q', [])]) , 'q1')
+    #g,s,cat = (propCalcIdStar, U('&', []) , 'q1')
+    #g,s,cat = (propCalcIdStar, U('v', [U('Q', [])]) , 'q1')
+    #g,s,cat = (propCalcIdStar, U('v', []) , 'q0')
+    g,s,cat = (propCalcIdStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('P', [])]) , 'q0')
+    #g,s,cat = (propCalcIdStar, U('&', [U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', []),U('Q', [])]), 'q1')
 
     gU = lines2rules(g)
     prettyRules(gU)
+    print('\nIs that transducer deterministic (conditions aside)? %s' % str(deterministic(gU)))
     print('\nAttempting to transduce this syntactic structure (to %s):\n' % cat)
     print(s)
     output = duxmbutt(gU, s)
