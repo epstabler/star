@@ -5,6 +5,15 @@ The files in this directory have some long examples that test and explain what h
 Studying the examples, in order, is a good way to become familiar with this code.
 The code was tested with python3.7, and will likely run on any python3.x.
 
+## CKY parser for *-MG: mgstarckyp.py
+
+For demo example, type:
+
+```
+# python mgstarckyp.py
+```
+For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-up parsers for MGs have been discussed in many places, beginning with [Harkema 2001](https://linguistics.ucla.edu/people/stabler/paris12/Harkema01.pdf). The *-extension is straightforward.
+
 ## Unranked trees: utree.py
 
 The class U of unranked trees is defined. 
@@ -20,15 +29,6 @@ and each of its children,
 the trees are built with the "has children" relation between every node and the (possibly empty)
 list (aka "sequence") of its children. Those lists can have any finite length
 (setting aside limits on your python implementation).
-
-## CKY parser for *-MG: mgstarckyp.py
-
-For demo example, type:
-
-```
-# python mgstarckyp.py
-```
-For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-up parsers for MGs have been discussed in many places, beginning with [Harkema 2001](https://linguistics.ucla.edu/people/stabler/paris12/Harkema01.pdf). The *-extension is straightforward.
 
 ## Deterministic, unranked, extended multi bottom-up tree transduction: duxmbutt.py
 
