@@ -6,8 +6,9 @@
        Engelfriet, Lilin, and Maletti 2009
        https://link.springer.com/article/10.1007/s00236-009-0105-8}
     
-    This implementation can be applied to nondeterministic uxmbutts,
-    but whenever it finds a rule that can be applied, it applies it.
+    This implementation can be applied to nondeterministic uxmbutts if
+    they have not epsilon cycles, but whenever it finds a rule that
+    can be applied, it applies it.
 
     Each transducer is given as a list of rules.
     Rules have the form 
@@ -26,6 +27,7 @@
     NB: The print format for U trees (based on NLTK Tree format) is
     defined in utree.py, and this is used in printing transducer
     rules.
+
 """
 import re
 from utree import *

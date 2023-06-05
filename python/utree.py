@@ -63,11 +63,10 @@ class U(list):
 
     def symbolSubtrees(self):
         """ distinguishing states from symbols by requirement that state._root begins with 'q' """
+        result = [self]
         if self._root and self._root[0] != 'q':
             result = [self]
             for c in self._children: result.extend(c.symbolSubtrees())
-        else:
-            result = []
         return result
 
     def labels(self):

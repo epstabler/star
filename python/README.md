@@ -3,6 +3,7 @@
 The files in this directory have some long examples that test and explain what has been implemented here.
 (And more detail about steps of the computations is provided by editing the files to set VERBOSE = True)
 Studying the examples, in order, is a good way to become familiar with this code.
+The code was tested with python3.7, and will likely run on any python3.x.
 
 ## Unranked trees: utree.py
 
@@ -31,29 +32,39 @@ For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-
 
 ## Deterministic, unranked, extended multi bottom-up tree transduction: duxmbutt.py
 
-Transitions have the form (treeIn, treeOut, conditions, weight),
-where conditions are either ``'True'`` or
-boolean tests on bound label variables that use only builtin
-Python operations. For details about variables and binding
-see code and comments. See umbutts/\*Star\* for *- and +- extended examples.
-
-For VERBOSE output, set ``VERBOSE = True`` in ``duxmbutt.py``
-
-None of the basic functions other than graphical display require NLTK. (if needed, ``pip install nltk``).
-
 For demo examples, type:
 
 ```
 # python duxmbutt.py
 ```
 
+See comments in that file and the many other examples there.
+
+See see umbutts/ for example grammars, and umbutts/\*Star\* for *- and +- extended examples.
 \*-extended U transducer rules can apply to any number of children.
 This is in effect a kind of polymorphism: the function defined by these rules can operate on 
 nodes labeled X regardless of its arity. This *-extension is implemented by putting subtrees into a variable which is tested in a Boolean "condition" on the rule. The implementation is currently not enforcing restrictions on the definition of those condiitons, but when conditions conform to the standard definition of * or +, the duxmbutt is finite state.
-See comments in that file and the many other examples there.
+
+Note how the examples are pretty-printed strings that are parsed into a list of
+rules, where each rule is a 4-tuple (treeIn, treeOut, conditions, weight).
+
+The conditions are boolean tests on bound label variables that use only builtin Python operations,
+so ``'True'`` is the empty condition. The conditions are
+represented as strings to facilitate binding of variables, 
+and then they are evaluated with Python's eval(conditions, bindings). For details, see code and comments.
+
+For VERBOSE output, set ``VERBOSE = True`` in ``duxmbutt.py``
+
+None of the basic functions other than graphical display require NLTK. (if needed, ``pip install nltk``).
 
 ## OT via composition and pruning: ot.py
 
 Given an umbutt and constraints in order of priority, if umbutt is not deterministic, compose with next constraint and prune non-optimal paths, until either there are no more constraints, or the umbutt is deterministic. See comments in the file.
+
+For demo examples, type:
+
+```
+# python ot.py
+```
 
 *** in progress ***
