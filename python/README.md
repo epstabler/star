@@ -15,8 +15,9 @@ For demo example, type:
 For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-up parsers for MGs have been discussed in many places, beginning with [Harkema 2001](https://linguistics.ucla.edu/people/stabler/paris12/Harkema01.pdf). The *-extension is straightforward.
 
 Note that the very common
-representation of trees as data structures with a node label and a list of children
-is already an unranked tree data structure. This contrasts with successor-based
+representation of trees as data structures with a node label and a list of
+(0 or more) children is already an unranked tree data structure.
+This contrasts with successor-based
 representations of trees, as in binary trees where each internal node has a left function and
 a right function.
 
