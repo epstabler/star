@@ -54,7 +54,7 @@ def deterministic(uxmbutt):
           where the relevant subtrees ('symbolSubtrees')
           are those with a symbol at the root (not a state)
 
-    See Engelfriet, Lilin, and Maletti 2009 section 3 (p7)
+    See Engelfriet, Lilin, and Maletti 2009 section 3 (p567)
     """
     leftSideParts = []
     for r in uxmbutt:
@@ -163,6 +163,7 @@ def drawRules(rs):
             Tree('rule%d' % i,[nltk0,Tree('->',[]),nltk1,Tree('if %s' % r[2],[])]).draw()
 
 if __name__ == '__main__':
+    # Uncomment the desired example:
     #g,s,cat = (propCalcUMBUTT, U('P',[]) , 'q0')
     #g,s,cat = (propCalcUMBUTT, U('&', [U('P', []), U('Q', [])]) , 'q0')
     #g,s,cat = (propCalcUMBUTT, U('v', [U('P', []), U('Q', [])] ) , 'q1')

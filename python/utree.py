@@ -1,5 +1,6 @@
 # utree.py -- unranked tree
-# This data structure is used by unranked tree transducers in duxmbutt.py and uxmbutt.py
+# This data structure is used by unranked tree transducers
+#   in duxmbutt.py and ot.py
 
 import sys, re
 
@@ -25,6 +26,8 @@ class U(list):
     specified root label and list of children.
 
     As in NLTK Trees, in U trees the root labels are unranked.
+    That is, there is no assumption that each symbol is uniquely
+    ranked.
 
     NLTK need not be imported, but in case it is,
     you can draw a U t with Tree.fromstring(str(t)).draw()
@@ -488,4 +491,5 @@ def test2e():
         print('No errors in test 2e of U.match and U.instantiate')
 
 if __name__ == '__main__':
+    # Choose the desired example:
     test2e()

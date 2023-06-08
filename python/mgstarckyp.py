@@ -6,12 +6,14 @@
        > python mgstarckyp.py
      runs an example -- see last lines of this file
 
-     As described in Stabler and Yu 2023, *-MGs allow features f*, f+
+     As described in Stabler and Yu 2023, 
+       *-MGs allow features f*, f+ in antecedents,
        indicating (0 or more f), (1 or more f) respectively.
        Some simple examples appear in the example grammar mgIrish.
 
      NB: f* is weakly equivalent to 0 or more f, but different derived structure: all sisters.
-     And f+ is weakly equivalent to ff*, but has different derived structure: all sisters.
+         And f+ is weakly equivalent to ff*, but has different derived structure: all sisters.
+         Intuitively, antecedent f+ checks 1 or more consequent f features simultaneously.
 
      Function initializeMatrix(..) assumes lex items are either empty or 1 string.
 
@@ -390,6 +392,7 @@ def printMatrix(m):
 # main
 # ////////////////////////////////////////////////////////////
 if __name__ == '__main__':
+    # Uncomment the desired example:
     #g,s,cat = (mg0, ['the','queen'], 'D')
     #g,s,cat = (mg0, ['the','king','prefers','the','beer'], 'C')
     #g,s,cat = (mg0, ['the','queen','knows','which','beer','the','king','prefers'], 'C')

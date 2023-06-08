@@ -16,7 +16,9 @@ For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-
 
 Note that the very common representation of trees as data structures
 with a node label and a list of (0 or more) children is already an
-unranked tree data structure.  This contrasts with successor-based
+unranked tree data structure, where there is no assumption that each
+symbol has a unique rank. 
+This contrasts with successor-based
 representations of trees, as for example in binary trees where each
 internal node has a left function and a right function.
 

@@ -1,6 +1,6 @@
 # star
 Kleene-* extensions of MG, OT interface, implementing ideas from
-[Stabler & Yu 2023 "Unbounded recursion in two dimensions"](https://blogs.umass.edu/scil/scil-2023/)
+[Stabler & Yu 2023 "Unbounded recursion in two dimensions"](https://scholarworks.umass.edu/scil/)
 
 NB: This preliminary implementation aims only to provide 
 an initial check on how some of the ideas in the paper work together,
@@ -17,3 +17,4 @@ Besides a grammar that derives examples of Irish coordination in the paper, some
 Python 3.x CKY-like parser for *-MG, implementing rule K (without head movement). Some tiny example grammars are provided, including a grammar that derives examples of Irish coordination in the paper, and a grammar that derives the XX copy language.
 
 An implementation of deterministic unranked extended multi bottom-up tree transducers.
+
