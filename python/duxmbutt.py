@@ -7,7 +7,7 @@
        https://link.springer.com/article/10.1007/s00236-009-0105-8}
     
     This implementation can be applied to nondeterministic uxmbutts if
-    they have not epsilon cycles, but whenever it finds a rule that
+    they have no epsilon cycles, but whenever it finds a rule that
     can be applied, it applies it.
 
     Each transducer is given as a list of rules.
@@ -19,14 +19,16 @@
     pretty-printed rule by an "x" at the end of the line.
     See umbutts/ for examples.
     
-    States all begin with 'q'.
-    The rules can be 'extended' in the sense that the left side can
-    contain more structure than the next node and state subtrees.
+    All states, and only states, begin with 'q'.
+
+    Rules can be 'extended' in the sense that the left side can
+    contain more structure than just the next node and state subtrees.
+
     Label variables and tree variables with conditions are allowed.
 
-    NB: The print format for U trees (based on NLTK Tree format) is
-    defined in utree.py, and this is used in printing transducer
-    rules.
+    NB: The print format for U trees is defined in utree.py
+        (this format is from NLTK),
+        and this is used in printing transducer rules.
 
 """
 import re
@@ -49,16 +51,26 @@ ruleWeight = re.compile("(.*)\s+(x+)\s*$")
 
 def deterministic(uxmbutt):
     """ given uxmbutt,
-        return True iff no 2 rules are such that the left side of one is
+        return True iff
+
+          no rule._root is a final state, and
+
+          no 2 rules are such that the left side of one is
           an instance of any subtree of the left side of another,
           where the relevant subtrees ('symbolSubtrees')
           are those with a symbol at the root (not a state)
+
+    NB: TEMPORARILY, no check of final states
 
     See Engelfriet, Lilin, and Maletti 2009 section 3 (p567)
     """
     leftSideParts = []
     for r in uxmbutt:
         left = r[0]
+        if left._root[0] == 'q':
+            print('Warning: Epsilon rule, so non-deterministic if all states final')
+            print('         If not all states final, make sure final not left._root')
+            return False
         for t in leftSideParts:
             ok = t.match(left, [])
             if ok != None:
