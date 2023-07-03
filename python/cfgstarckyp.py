@@ -294,7 +294,11 @@ def showMatrix(m):
     for row in m: print(row)
 
 def pptree(n, t):
-    """ pretty print t indented n spaces """
+    """ pretty print t indented n spaces. E.g.
+          pptree(0, ['TP', ['DP', ['John']], ['VP', ['V',['praises']], ['DP', ['Mary']]]])
+        NB: In this list-based tree notation, non-initial list elements are subtrees,
+             and so must be lists.
+    """
     if isinstance(t, list) and len(t)>0:
         print('%s %s' % (n*' ', str(t[0]))) # print root
         for subtree in t[1:]:  # then subtrees indented by 4
