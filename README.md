@@ -1,6 +1,6 @@
 # star
 Kleene-* extensions of MG, OT interface, implementing ideas from
-[Stabler & Yu 2023 "Unbounded recursion in two dimensions"](https://scholarworks.umass.edu/scil/) [(slides)](slidesAnnotated.pdf).
+[Stabler & Yu 2023 "Unbounded recursion in two dimensions"](https://scholarworks.umass.edu/scil/vol6/iss1/32/)
 
 NB: This preliminary implementation aims only to provide 
 an initial check on how some of the ideas in the paper work together,
