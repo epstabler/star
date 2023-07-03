@@ -25,14 +25,6 @@ For demo example, type:
 ```
 For VERBOSE output, set ``VERBOSE = True`` in that file. CKY chart-based bottom-up parsers for MGs have been discussed in many places, beginning with [Harkema 2001](https://linguistics.ucla.edu/people/stabler/paris12/Harkema01.pdf). The *-extension is straightforward.
 
-Note that the very common representation of trees as data structures
-with a node label and a list of (0 or more) children is already an
-unranked tree data structure, where there is no assumption that each
-symbol has a unique rank. 
-This contrasts with successor-based
-representations of trees, as for example in binary trees where each
-internal node has a left function and a right function.
-
 ## Unranked trees: utree.py
 
 A class U of unranked trees is defined, with functions needed for our purposes.
@@ -41,6 +33,14 @@ This is based on the NLTK class Tree, but, for the transductions,
 match and instantiate operations are added (among other things -- see comments in file).
 Conversion to and from NLTK Trees can be done via their string representations,
 so NLTK graphical display is available with this conversion.
+
+Note that the very common representation of trees as data structures
+with a node label and a list of (0 or more) children is already an
+unranked tree data structure, where there is no assumption that each
+symbol has a unique rank. 
+This contrasts with successor-based
+representations of trees, as for example in binary trees where each
+internal node has a left function and a right function.
 
 ## Deterministic, unranked, extended multi bottom-up tree transduction: duxmbutt.py
 
