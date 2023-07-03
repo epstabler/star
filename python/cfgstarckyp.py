@@ -37,20 +37,34 @@ VERBOSE = False
 START = 'S'
 
 g1 = """
-S -> NP VP | S+ and S
-NP -> Name | N' | N' CP | NP+ and NP
-N' -> AP* N | N'+ and N'
-N -> N N | Name N | N+ and N
-AP -> DegP A | A | AP+ and AP
-A -> A+ and A
-DegP -> Deg | DegP+ and DegP
-Deg -> Deg+ and Deg
-VP -> V NP | V | VP+ and VP
-V -> V+ and V
-CP -> Op C' | CP+ and CP
-C' -> C S/NP | C'+ and C'
-S/NP -> NP VP/NP | S/NP+ and S/NP
-VP/NP -> V Op | VP/NP+ and VP/NP
+S -> NP VP | S+ &S
+&S -> and S
+NP -> Name | N' | N' CP | NP+ &NP
+&NP -> and NP
+N' -> AP* N | N'+ &N'
+&N' -> and N'
+N -> N N | Name N | N+ &N
+&N -> and N
+AP -> DegP A | A | AP+ &AP
+&AP -> and AP
+A -> A+ &A
+&A -> and A
+DegP -> Deg | DegP+ &DegP
+&DegP -> and DegP
+Deg -> Deg+ &Deg
+&Deg -> and Deg
+VP -> V NP | V | VP+ &VP
+&VP -> and VP
+V -> V+ &V
+&V -> and V
+CP -> Op C' | CP+ &CP
+&CP -> and CP
+C' -> C S/NP | C'+ &C'
+&C' -> and C'
+S/NP -> NP VP/NP | Op VP | S/NP+ &S/NP
+&S/NP -> and S/NP
+VP/NP -> V Op | VP/NP+ &VP/NP
+&VP/NP -> and VP/NP
 
 V -> see | laugh | help | bother | eat | drank | buffalo | police | char | bark | meow | dog | refuse | chase
 N -> students | teachers | dogs | cats | buffalo | police | kind | saw | mice | rats | cheese | char
@@ -296,7 +310,7 @@ if __name__ == '__main__':
     #g,s = g1, ['dogs','bark']
     #g,s = g1, ['alert','dogs','bark'],
     #g,s = g1, ['alert','excited','dogs','bark'],
-    g,s = g1, ['alert','excited','courageous','dogs','bark'],
+    #g,s = g1, ['alert','excited','courageous','dogs','bark'],
     #g,s = g1, ['dogs','bark','dogs','bark','dogs','bark','and','dogs','bark'],
     #g,s = g1, ['dogs','bark','bark','bark','and','bark'],
     #g,s = g1, ['dogs','that','cats','bother']
@@ -309,7 +323,7 @@ if __name__ == '__main__':
     #g,s = g1, ['dogs', 'dogs', 'dog', 'dog', 'dogs']
     #g,s = g1, ['mice', 'that', 'cats', 'that', 'dogs', 'bother', 'chase', 'eat', 'cheese', 'that', 'rats', 'refuse']
     #g,s = g1, ['mice', 'cats', 'dogs', 'bother', 'chase', 'eat', 'cheese', 'rats', 'refuse']
-    #g,s = g1, ['buffalo', 'that', 'buffalo', 'buffalo', 'buffalo', 'buffalo']  # ambiguous
+    g,s = g1, ['cats', 'that', 'meow', 'that', 'eat', 'mice', 'and', 'that', 'chase', 'rats', 'bother', 'dogs']  # ambiguous
     #g,s = g1, ['buffalo', 'buffalo', 'buffalo', 'buffalo', 'buffalo']  # ambiguous!
     #g,s = g1, ['police', 'police', 'police', 'police', 'police']  # ambiguous!
     #g,s = g1, ['char', 'char', 'char', 'char', 'char']   # ambiguous!
