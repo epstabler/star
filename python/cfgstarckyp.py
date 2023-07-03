@@ -300,8 +300,7 @@ def pptree(n, t):
         for subtree in t[1:]:  # then subtrees indented by 4
             pptree(n+4, subtree)
     else:
-        print()
-        print('%s %s' % (' '*n + ' ', str(t)))
+        raise RuntimeError('pptree error')
 
 if __name__ == '__main__':
     """ examples """
