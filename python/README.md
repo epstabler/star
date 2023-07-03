@@ -7,14 +7,13 @@ The code was tested with python3.7, and will likely run on any python3.x.
 
 ## CKY parser for *-CFG
 
-This is interesting to compare *-extension of more familiar context free grammars. For demo example, type:
+It is interesting to compare *-extension of more familiar context free grammars. For demo example, type:
 
 ```
 # python cfgstarckyp.py
 ```
 For VERBOSE output, set ``VERBOSE = True`` in that file.
 
-Notice the tedious redundancies in the grammar, and the clunky processing required in the parsing code.
 
 ## CKY parser for *-MG: mgstarckyp.py
 
