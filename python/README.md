@@ -14,6 +14,7 @@ This is interesting to compare *-extension of more familiar context free grammar
 ```
 For VERBOSE output, set ``VERBOSE = True`` in that file.
 
+Notice the tedious redundancies in the grammar, and the clunky processing required in the parsing code.
 
 ## CKY parser for *-MG: mgstarckyp.py
 
