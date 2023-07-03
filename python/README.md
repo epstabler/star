@@ -5,6 +5,16 @@ The files in this directory have some long examples that test and explain what h
 Studying the examples, in order, is a good way to become familiar with this code.
 The code was tested with python3.7, and will likely run on any python3.x.
 
+## CKY parser for *-CFG
+
+This is interesting to compare this simpler grammar. For demo example, type:
+
+```
+# python cfgstarckyp.py
+```
+For VERBOSE output, set ``VERBOSE = True`` in that file.
+
+
 ## CKY parser for *-MG: mgstarckyp.py
 
 For demo example, type:
