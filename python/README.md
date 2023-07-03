@@ -7,7 +7,7 @@ The code was tested with python3.7, and will likely run on any python3.x.
 
 ## CKY parser for *-CFG
 
-This is interesting to compare this simpler grammar. For demo example, type:
+This is interesting to compare *-extension of more familiar context free grammars. For demo example, type:
 
 ```
 # python cfgstarckyp.py
