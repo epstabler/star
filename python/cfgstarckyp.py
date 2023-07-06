@@ -32,6 +32,7 @@
 
      NB: Tree collection can fail to terminate on grammars with cycles.
 """
+#from list2nltktree import list2nltktree # OPTIONAL. search for "list2nltktree"
 VERBOSE = False
 
 START = 'S'
@@ -87,15 +88,22 @@ def accepts(g, inputwords):
         and if found, ask user to select a tree
     """
     empties, gdict = g2gdict(g)
+    if VERBOSE:
+        for x in gdict.items():
+            key,values = x
+            print(key,' ->> ')
+            for v in values:
+                print('   ',v)
+                matrix, agenda = initialize(inputwords, empties)
     matrix, agenda = initialize(inputwords, empties)
     print('parsing: %s' % ' '.join(inputwords))
     closeMatrix(gdict, matrix, agenda)
     cornercats = [e[0] for e in matrix[0][len(inputwords)]]
-    if VERBOSE: print('spanning whole string:', cornercats)
+    if True or VERBOSE: print('spanning whole string:', cornercats)
     success = START in cornercats
     print(success)
     if success:
-        stack = [([(0,len(inputwords),'S')],[])]
+        stack = [([(0,len(inputwords),START)],[])]
         return(getTree(stack, matrix))
 
 def initialize(inputWords, empties):
@@ -195,7 +203,16 @@ def getTree(stack, matrix):
         if todo:
             if VERBOSE: print('todo[0] =', todo[0])
             i,j,cat = todo[0]
-            sources = [e for e in matrix[i][j] if e[0]==cat][0][1]
+            #sources = [e for e in matrix[i][j] if e[0]==cat][0][1]
+            sourceItems = [e for e in matrix[i][j] if e[0]==cat]
+            if sourceItems:
+                sourceItem = sourceItems[0]
+                if sourceItem:
+                    sources = sourceItem[1]
+                else:
+                    sources = None
+            else:
+                sources = None
             if sources:
                 for s in sources:
                     item = (s+todo[1:],history+[(cat,len(s))])
@@ -209,6 +226,7 @@ def getTree(stack, matrix):
         else:
             tree = lrr2tree(history,[])
             pptree(0, tree)
+            #list2nltktree(tree).draw()
             response = input('Type return if ok. Type ";" or any character to continue search): ')
             if not(response):
                 return tree
@@ -324,9 +342,9 @@ if __name__ == '__main__':
     #g,s = g1, ['Los', 'Angeles', 'dogs', 'that', 'cats','bother','bark']
     #g,s = g1, ['dogs', 'that', 'dogs', 'dog', 'dog', 'dogs']
     #g,s = g1, ['dogs', 'dogs', 'dog', 'dog', 'dogs']
-    #g,s = g1, ['mice', 'that', 'cats', 'that', 'dogs', 'bother', 'chase', 'eat', 'cheese', 'that', 'rats', 'refuse']
+    g,s = g1, ['mice', 'that', 'cats', 'that', 'dogs', 'bother', 'chase', 'eat', 'cheese', 'that', 'rats', 'refuse']
     #g,s = g1, ['mice', 'cats', 'dogs', 'bother', 'chase', 'eat', 'cheese', 'rats', 'refuse']
-    g,s = g1, ['cats', 'that', 'meow', 'that', 'eat', 'mice', 'and', 'that', 'chase', 'rats', 'bother', 'dogs']  # ambiguous
+    #g,s = g1, ['cats', 'that', 'meow', 'that', 'eat', 'mice', 'and', 'that', 'chase', 'rats', 'bother', 'dogs']  # ambiguous
     #g,s = g1, ['buffalo', 'buffalo', 'buffalo', 'buffalo', 'buffalo']  # ambiguous!
     #g,s = g1, ['police', 'police', 'police', 'police', 'police']  # ambiguous!
     #g,s = g1, ['char', 'char', 'char', 'char', 'char']   # ambiguous!
