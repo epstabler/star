@@ -210,7 +210,7 @@ mgex 16 = mergeStar [x0, mgex 15]
 mgex 17 = mergeStar [x1, mgex 16]
 mgex 18 = mergeStar [mgex 14, mgex 17] -- remnant movement
 mgex 19 = mergeStar [mgex 16, mgex 18] -- remnant movement
--- CP "is cuma e na shamhradh na fhomar no na gheimhreadh"
+-- CP "is cuma e na shamhradh na fhomar no na gheimhreadh" -- example from Stabler&Yu'23
 mgex 20 = mergeStar [i6, i7]
 mgex 21 = mergeStar [i6, i8]
 mgex 22 = mergeStar [i6, i9]
