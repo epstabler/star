@@ -4,7 +4,7 @@
         transducing them to linear form (i.e. strings),
         pretty-printing them.
 
-This code was developed and tested in GHCi, version 9.2.5
+This code was developed and tested in GHCi, versions 9.2.5 and 9.4.7
 
 EXAMPLE: Load this file, then evaluate "ex4 30" for Irish coordination of 3 elements.
          Many other examples at bottom of file.
@@ -62,14 +62,14 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
         then let typ = tail yp in
           if typ == []
           then 
-            if allMatch f more
+            if allMatch f more    -- In essence, this is the *-extension!
             then LSO m (klinear x xs (ys ++ allStrings more)) xn xp (xmv ++ ymv)
             else error "label' error: features of more do not match"
           else case (more, head typ) of
             ([], (F g)) ->
               let newmv = smc g (smc g [Mv y ys typ] ymv) xmv in
                LSO m (klinear x xs (delPh ys)) xn xp newmv
-            otherwise -> error "label' error: more should be empty when |poss|>1"
+            otherwise -> error "label' error: more must be empty when |pos features|>1"
         else error "label' error: features do not match"
       otherwise -> error "label' error: positive features must be (F _)"
 
@@ -116,6 +116,7 @@ negsPoss = foldr (\x y -> case x of
                  ) ([],[])
 
 -- allMatch f returns true iff every mover in list has first feature f
+-- In essence, this is the *-extension!
 allMatch f = foldr (\x y -> case x of
                        (LSO _ _ [] (F h:[]) []) -> f == h && y
                    ) True
