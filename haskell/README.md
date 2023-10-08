@@ -10,3 +10,6 @@ ghci> ex4 30
 ```
 
 See ``MergeStar.hs`` for many other examples.
+
+Search in ``MergeStar.hs`` for the comment "this is the *-extension".
+
