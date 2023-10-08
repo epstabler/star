@@ -151,9 +151,7 @@ fs2str n p = (joinstr "." (map showF n)) ++ " -o " ++ (joinstr "." (map showF p)
 
 showF f = case f of { F x -> show x ; Plus x -> (show x) ++ "+" ; Star x -> (show x) ++ "*"}
 
-joinstr _ [] = ""
-joinstr _ (h:[]) = h
-joinstr x (h:t) = h ++ x ++ (joinstr x t)
+joinstr sep = foldr (\x y -> if length y == 0 then x else (x ++ sep ++ y)) ""
 
 -- EXAMPLES -- Empty cats can be [], but [""] lets us see empty cat traces
 -- simple wh movement (*- and +-extensions not needed)
