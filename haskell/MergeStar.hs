@@ -55,7 +55,7 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
     Just (ys',xymv) ->            -- matching feature found by selectMvr
       if more == []               -- no +- or *-extensions for internal merge
       then LSO m (klinear x xs ys') xn xp xymv
-      else error "label' error: moving complement with additional sisters"
+      else error "label' error: >1 sister not allowed when any of them is moving"
     Nothing -> case head yp of    -- ok, try external merge
       F g ->
         if f == g                 -- matching feature found
@@ -73,7 +73,7 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
         else error "label' error: features do not match"
       otherwise -> error "label' error: positive features must be (F _)"
 
--- (smc f new) maps xmv to (xmv ++ new) if nothing in xmv begins with f, else error!
+-- (smc f new) maps xmv to (xmv ++ new) if nothing in xmv begins with f
 smc f new = foldr (\x y -> case x of
                       (Mv z zs ((F g):zp)) -> 
                         if f == g
