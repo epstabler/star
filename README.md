@@ -21,4 +21,5 @@ An implementation of deterministic unranked extended multi bottom-up tree transd
 ## haskell/
 An implementation of *-merge and labeling.
 This typed, higher order language is good for carefully assessing the anatomy of these processes.
+This representation provides the clearest representation of what the *-extension really amounts to.
 
