@@ -225,7 +225,6 @@ mgex 30 = mergeStar [i0, mgex 29]
 
 ex2 n = do {ppMg (mgex n) ; putStrLn ""}
 ex3 n = ppLSO (label (mgex n))
--- examples: klinear -- evaluate "ex4 n" for n >= 0
 ex4 n = case label (mgex n) of
     (LSO x xs xn xp xmv) -> do
       ppMg (mgex n)
