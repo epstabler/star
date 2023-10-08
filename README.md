@@ -18,3 +18,7 @@ Python 3.x CKY-like parser for *-MG, implementing rule K (without head movement)
 
 An implementation of deterministic unranked extended multi bottom-up tree transducers.
 
+## haskell/
+An implementation of *-merge and labeling.
+This typed, higher order language is good for carefully assessing the anatomy of these processes.
+
