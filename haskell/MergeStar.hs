@@ -75,19 +75,6 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
         else error "label' error: features do not match"
       otherwise -> error "label' error: positive features must be (F _)"
 
--- (smc f new) maps xmv to (xmv ++ new) if nothing in xmv begins with f
-smc f new = foldr (\x y -> case x of
-                      (LSO z zs [] ((F g):zp) []) -> 
-                        if f == g
-                        then error ("error: smc violation on " ++ (show g))
-                        else (x:y)
-                      otherwise -> error "smc error: ill formed mover"
-                   ) new
-
--- Kayne-like linearization: complexes select on left, lex items select on right
-klinear (M _) x y = y ++ x
-klinear    _  x y = x ++ y
-
 -- selectMvr, a partial function, selects mover that matches feature f, if any
 selectMvr z zs f mvrs = case mvrs of
    [] -> Nothing
@@ -105,6 +92,19 @@ selectMvr z zs f mvrs = case mvrs of
            then Just (zs, mvrs')
            else Just (delPh zs, (LSO m ms [] mp []):mvrs') -- mover launches again
      otherwise -> error "selectMvr error: ill-formed mover (neg feats, or no pos?)"
+
+-- (smc f new) maps xmv to (xmv ++ new) if nothing in xmv begins with f
+smc f new = foldr (\x y -> case x of
+                      (LSO z zs [] ((F g):zp) []) -> 
+                        if f == g
+                        then error ("error: smc violation on " ++ (show g))
+                        else (x:y)
+                      otherwise -> error "smc error: ill formed mover"
+                   ) new
+
+-- Kayne-like linearization: complexes select on left, lex items select on right
+klinear (M _) x y = y ++ x
+klinear    _  x y = x ++ y
 
 -- return concatenation of strings from list of labels
 allStrings = foldr (\x y -> case x of
