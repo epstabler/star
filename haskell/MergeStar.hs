@@ -4,6 +4,8 @@
         transducing them to linear form (i.e. strings),
         pretty-printing them.
 
+I tried to provide informative error messages for most kinds of failure.
+
 This code was developed and tested in GHCi, versions 9.2.5 and 9.4.7
 
 EXAMPLE: Load this file, then evaluate "ex4 30" for Irish coordination of 3 elements.
@@ -97,12 +99,12 @@ selectMvr z zs f mvrs = case mvrs of
            Nothing -> Nothing
        else                     -- feature matches!
          if m /= z
-         then Nothing
+         then error "selectMvr error: matching mover with diff so"
          else                   -- structure z is, in fact, m, as required
            if mp == []
            then Just (zs, mvrs')
            else Just (delPh zs, (LSO m ms [] mp []):mvrs') -- mover launches again
-     otherwise -> Nothing
+     otherwise -> error "selectMvr error: ill-formed mover (neg feats, or no pos?)"
 
 -- return concatenation of strings from list of labels
 allStrings = foldr (\x y -> case x of
