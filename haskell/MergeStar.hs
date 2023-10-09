@@ -1,6 +1,6 @@
 {- MergeStar.hs
-     functions for constructing sets with *- and +-extended merge,
-        labeling them,
+     functions for constructing syntactic obects (SOs) with *- and +-extended merge,
+        labeling them (SOs are "wrapped" in their labels),
         transducing them to linear form (i.e. strings),
         pretty-printing them.
 
@@ -17,12 +17,12 @@ Extending * and + to internal merges and to pos features intersects with
 -}
 import Data.Set (Set)
 import qualified Data.Set as Set
+import Data.List -- for foldl'
 
 data Cat = C | D | N | V | Vo | A | P | Wh | R | L | B | TM | Predx | Pred  deriving (Show, Eq, Ord)
 data Feature = F Cat | Plus Cat | Star Cat  deriving (Show, Eq, Ord)
 data SO = Lex [String] [Feature] [Feature] | M (Set SO) deriving (Show, Eq, Ord) 
-data LabeledMover = Mv SO [String] [Feature] deriving (Show, Eq, Ord) 
-data LabeledSO = LSO SO [String] [Feature] [Feature] [LabeledMover] deriving (Show, Eq, Ord) 
+data LabeledSO = LSO SO [String] [Feature] [Feature] [LabeledSO] deriving (Show, Eq, Ord) 
 
 -- s converts list to set
 s :: Ord a => [a] -> Set a
@@ -35,7 +35,7 @@ l = Set.elems
 -- map any sequence (list) of elements to the set of those elements
 mergeStar x = M (s x)
 
---  wrap so in a label: (LSO so string pos-features neg-features movers), else error!
+--  wrap so in a label (LSO so string pos-features neg-features movers)
 label (Lex w nw pw) = LSO (Lex w nw pw) w nw pw []
 label (M mg) = case negsPoss (map label (l mg)) of
     -- make sure syntactic head is unique
@@ -67,7 +67,7 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
             else error "label' error: features of more do not match"
           else case (more, head typ) of
             ([], (F g)) ->
-              let newmv = smc g (smc g [Mv y ys typ] ymv) xmv in
+              let newmv = smc g (smc g [LSO y ys [] typ []] ymv) xmv in
                LSO m (klinear x xs (delPh ys)) xn xp newmv
             otherwise -> error "label' error: more must be empty when |pos features|>1"
         else error "label' error: features do not match"
@@ -75,7 +75,7 @@ label' m x xs f xn xp xmv (LSO y ys yn yp ymv) more =
 
 -- (smc f new) maps xmv to (xmv ++ new) if nothing in xmv begins with f
 smc f new = foldr (\x y -> case x of
-                      (Mv z zs ((F g):zp)) -> 
+                      (LSO z zs [] ((F g):zp) []) -> 
                         if f == g
                         then error ("error: smc violation on " ++ (show g))
                         else (x:y)
@@ -90,7 +90,7 @@ klinear    _  x y = x ++ y
 selectMvr z zs f mvrs = case mvrs of
    [] -> Nothing
    (mv:mvrs') -> case mv of
-     (Mv m ms ((F g):mp)) -> 
+     (LSO m ms [] ((F g):mp) []) -> 
        if f /= g
        then case selectMvr z zs f mvrs' of
            Just (zs', mvrs'') -> Just (zs', (mv:mvrs''))
@@ -101,7 +101,7 @@ selectMvr z zs f mvrs = case mvrs of
          else                   -- structure z is, in fact, m, as required
            if mp == []
            then Just (zs, mvrs')
-           else Just (delPh zs, (Mv m ms mp):mvrs') -- mover launches again
+           else Just (delPh zs, (LSO m ms [] mp []):mvrs') -- mover launches again
      otherwise -> Nothing
 
 -- return concatenation of strings from list of labels
@@ -115,7 +115,7 @@ negsPoss = foldr (\x y -> case x of
                      otherwise -> let (ns,ps) = y in ( ns, x:ps )
                  ) ([],[])
 
--- allMatch f returns true iff every mover in list has first feature f
+-- allMatch f returns true iff every mover in list has positive feature f
 -- In essence, this is the *-extension!
 allMatch f = foldr (\x y -> case x of
                        (LSO _ _ [] (F h:[]) []) -> f == h && y
@@ -141,7 +141,7 @@ ppMgs i (x:[]) = ppMg' i x
 ppMgs i (x:xs) = do { ppMg' i x ; putStrLn ", " ; ppMgs i xs }
 
 ppMvs [] = putStrLn ""
-ppMvs ((Mv x xs xp):more) = do
+ppMvs ((LSO x xs [] xp []):more) = do
   {putStr " $ "; ppMg x ; putStr ":" ; putStrLn (fs2str [] xp) ; ppMvs more}
 
 ppLSO (LSO x xs xn xp xmv) = do {ppMg x; putStr ":"; putStr (fs2str xn xp); ppMvs xmv}
@@ -226,7 +226,7 @@ mgex 30 = mergeStar [i0, mgex 29]
 ex2 n = do {ppMg (mgex n) ; putStrLn ""}
 ex3 n = ppLSO (label (mgex n))
 ex4 n = case label (mgex n) of
-    (LSO x xs xn xp xmv) -> do
+  (LSO x xs xn xp xmv) -> do
       ppMg (mgex n)
       putStrLn ""
       putStrLn (fs2str xn xp)
