@@ -81,7 +81,7 @@ smc f new = foldr (\x y -> case x of
                         if f == g
                         then error ("error: smc violation on " ++ (show g))
                         else (x:y)
-                      otherwise -> error "smc error: ill formed mover list"
+                      otherwise -> error "smc error: ill formed mover"
                    ) new
 
 -- Kayne-like linearization: complexes select on left, lex items select on right
