@@ -90,41 +90,28 @@ as in this very slightly more elaborate example:
           q1( p1(x1,x2), p1(x3,x4) ) → q1(  p(δ(x2)), p1(x3,x4)) )
           q1( p1(x1,x2), p1(x3,x4) ) → q1(  p(δ(x2)),  p(δ(x4))  )
 
-    -------------------- A restricted definition of composition
+    Note that the last output has 2 symbols.
+    And R3 produces outputs with 0 symbols.
+    So the results of compositions are not 1-normal
+
+    -------------------- The restricted definition of composition
 
 The EL&M def of M∘N requires M but not N to be 1-normal, as in Example 20.
 As EL&M note, this makes the definition simpler.
 
-But we want to use their simple definition to calculate compositions
-like (M∘N)∘O, in which case we want not only M but also M∘N to be 1-normal.
-So we could compute 1n(M)∘N, then 1n(1n(M)∘N), and so on...
-
-But note that M∘N will already be in 1-normal form if both M and N are.
-So our implementation converts all the original machines to 1-normal form,
-eliminating the need to convert intermediate compositions to 1-normal.
-
-EL&M do not show 1n(N) in their Example 20, but we easily calculate:
-
-  1n(N).1: α → q2
-        2: q2 → h(α)
-        3: h(x1) → h(δ(x1))
-        4: γ(h(x1), h(x2)) → q3(x1 x2)
-	5: q3(x1,x2) → g(γ(x1, x2))
+To calculate compositions, like (M∘N)∘O,
+we compute 1n(M)∘N, then 1n(1n(M)∘N), and so on...
 
     -------------------- Implementation details
 
-In our implementation, states are strings beginning with 'q', or '(',
-variables are 'TV' or 'LV' (for resp. trees, labels) followed by ≥1 digits,
-while symbols are strings that do not begin with 'q', '(', 'TV', or 'LV'.
-
-The reason for allowing '(' in state names is for the "official" form
-of states in our composed transducers, in which the composed states are
-the print strings of the depth 1 state tree (where root has depth 0).
-Also, in the implementation, variables are numbered from 0.
+In our implementation, states are strings beginning with 'q',
+variables are 'TV' or 'LV' (for resp. trees, labels) followed by ≥1
+digits, numbered beginning with 0, while symbols are strings that do
+not begin with 'q', 'TV', or 'LV'.
 
 So where EL&M have the unofficial left side of one of their rules
     q3(h(x1),h(x2))
 which corresponds to their official
     q3⟨h, h⟩(x1, x2),
 we use the official form:
-    ('(q3 (qh ) (qh ))' (TV0 ) (TV1 ))
+    (q3<qh<>,qh<>> (TV0 ) (TV1 ))

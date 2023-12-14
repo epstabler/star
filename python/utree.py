@@ -17,7 +17,7 @@ class U(list):
           symbolSubtrees(self): returns all subtrees of self
              with input/output symbol at root
 
-          states(self): returns labels beginning with 'q' of every node in self
+          states(self): returns state-rooted subtrees of self
 
           labels(self): returns labels of every node in self
 
@@ -66,7 +66,7 @@ class U(list):
         return result
 
     def isState(self):
-        return self._root[0:1] in ['q','(']
+        return self._root[0:1] == 'q'
 
     def isVar(self):
         return self._root[0:2] in ['TV','LV']
@@ -107,13 +107,13 @@ class U(list):
             sa.extend(c.statesArities())
         return sa
 
-    def symbols(self):
+    def symbolLabels(self):
         """ return symbol occurrences in utree """
         s = []
         if self.isSymbol():
             s.append(self._root)
         for c in self._children:
-            s.extend(c.symbols())
+            s.extend(c.symbolLabels())
         return s
 
     def symbolCount(self):
@@ -162,17 +162,29 @@ class U(list):
 
             So a tree with M-root q and the N-roots of its children q1...qn
             is converted to the single node with root '(q (q1 ) ... (qn ))',
-            and, as its children, all the grandchildren, in order.
+            where that root is then converted to 'q<q1<>,...,qn<>>'.
+            (That last conversion avoids causing conversions from string formats
+             by our code, and by NLTK formatting for display)
         """
         if self.isState():
             if not(all([c.isState() for c in self._children])):
                 raise RuntimeError('utree.py: makeOfficial unexpected nonstate')
             grandchildren = [item for sublist in [y._children for y in self._children] for item in sublist]
             childrenEmptied = [U(c._root,[]) for c in self._children]
-            newRoot = str(U(self._root, childrenEmptied))
+            newRoot = U(self._root, childrenEmptied).toLabel()
             return U(newRoot,grandchildren)
         else:
             return U(self._root,[c.makeOfficial() for c in self._children])
+
+    def toLabel(self):
+        """ return self in the label format of EL&M """
+        label = self._root
+        label += '<'
+        for i,c in enumerate(self._children):
+            label += c.toLabel()
+            if i < len(self._children)-1: label += ','
+        label += '>'
+        return(label)
 
     def __copy__(self):
         return self.copy()

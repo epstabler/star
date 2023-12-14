@@ -3,6 +3,10 @@ import itertools
 from utree import *
 from nltk import Tree # OPTIONAL -- for display -- Tree.fromstring(str(utree)).draw()
 
+# **IN PROGRESS**
+# TODO: Urule.epsilonOut (see Prop 10)
+# TODO: Ubutt.accept(tree) (backtracking version first? then chart?)
+
 # OPTIONAL -- only needed for tests:
 import sys
 sys.path.insert(1, 'umbutts')
@@ -231,10 +235,24 @@ class Ubutt:
 
     def isOneNormal(self):
         """ return True iff uxmbutt is in 1-normal form """
+        errors = {}
         for r in self._rules:
-            if r._left.symbolCount() + r._right.symbolCount() != 1:
-                return False
-        return True
+            symbols = r._left.symbolCount() + r._right.symbolCount()
+            if symbols != 1:
+                if symbols in errors.keys():
+                    errors[symbols] += [r]
+                else:
+                    errors[symbols] = [r]
+        if errors == {}:
+            return True
+        else:
+            if VERBOSE:
+                print('Not 1-normal:')
+                for i in errors.items():
+                    (syms, rules) = i
+                    print('rules with %d symbols:' % syms)
+                    for r in rules: print('   ', r.prettyString())
+            return False
 
     def isSasOneNormal(uxmbutt):
         """ This variant of 1-normal form allows
@@ -413,6 +431,7 @@ class Ubutt:
 
                     newRule = Urule(Mli, Mri, Mr._conds, 0)
                     if VERBOSE: print('R1(Mr o Nr) = %s' % newRule.prettyString())
+                    #Ubutt([newRule], ['']).isOneNormal()
                     rules.append(newRule)
 
             else: ### look for cases of R3
@@ -469,6 +488,7 @@ class Ubutt:
                                     newRule = Urule(Mli, newR, composeBoolStr(Mr._conds, Nr._conds), Nr._weight)
 
                                     if VERBOSE: print('R3(Mr o Nr) = %s' % newRule.prettyString())
+                                    #Ubutt([newRule], ['']).isOneNormal()
                                     rules.append(newRule)
 
         moreRules = []
@@ -485,7 +505,7 @@ class Ubutt:
                 MatchingNrEpsilons = [ c+[None] for c in MatchingNrEpsilons]
 
                 for v in itertools.product(*MatchingNrEpsilons):
-                    if any([e != None for e in v]):
+                    if any([e != None for e in v]): # make at least 1 substitution
                         newLeft = Mr._right
                         newRightRoot = Mr._right._root
                         newRightChildren = []
@@ -499,7 +519,8 @@ class Ubutt:
                         moreRules.append(newRule)
 
         rules.extend(moreRules)
-        officialRules = [Urule(r._left.makeOfficial(), r._right.makeOfficial(), r._conds, r._weight) for r in rules]
+        officialRules = [Urule(r._left.makeOfficial(), r._right.makeOfficial(), r._conds, r._weight)
+                         for r in rules]
         officialFinals = [str(U(f,[U(ff,[])])) for f in M._finals for ff in N._finals]
         return Ubutt(officialRules, officialFinals)
 
@@ -799,6 +820,9 @@ def exampleR1():
     print()
     officialForm = M.o(N)
     #officialForm.prettyRules()
+    if officialForm.isOneNormal():
+        print('This composition is 1-normal:')
+        officialForm.prettyRules()
 
 def exampleR3():
     print('Example of R3, where transducer M =')
@@ -820,6 +844,9 @@ def exampleR3():
     print()
     officialForm = M.o(N)
     #officialForm.prettyRules()
+    if officialForm.isOneNormal():
+        print('This composition is 1-normal:')
+        officialForm.prettyRules()
 
 def exampleR2():
     print('Example of (R1 and then) R2.\n')
@@ -845,6 +872,9 @@ def exampleR2():
     print()
     officialForm = M.o(N)
     #officialForm.prettyRules()
+    if officialForm.isOneNormal():
+        print('This composition is 1-normal:')
+        officialForm.prettyRules()
 
 def example6():
     print("In their Example 20 (p24), Engelfriet&al'09 compose 2 xmbutts.\n")
@@ -890,17 +920,28 @@ def example6():
     print("    N is 1-normal?", gN.isOneNormal())
     print("\nEngelfriet&al define M o N for 1-normal M, but do not require that for N.")
 
+    print("\nSo we calculate the composition (M o N):\n")
+
+    officialForm = gM.o(gN)
+    print()
+    if officialForm.isOneNormal():
+        print('This composition is 1-normal:')
+        officialForm.prettyRules()
+
     print("Setting the stage for iterated compositions, though, 1-normal form is better.")
     print('\nConverting N to 1-normal form...\n')
     N1 = gN.oneNormalize(gN.states())
     print('1-normal form:')
     N1.prettyRules()
+    print(N1.isOneNormal())
 
-    print("\nSo we calculate the composition (M o N):\n")
+    print("\nSo we calculate the composition (M o 1n(N)):\n")
 
-    officalForm = gM.o(gN)
+    officialForm = gM.o(N1)
     print()
-    #officialForm.prettyRules()
+    if officialForm.isOneNormal():
+        print('This composition is 1-normal:')
+        officialForm.prettyRules()
 
 if __name__ == '__main__':
     #example0()   # identity transducer, deterministic, transduction
@@ -908,7 +949,8 @@ if __name__ == '__main__':
     #example2()   # 1-normal-form(M from Example 16), deterministic, transduction
     #example3()   # 1-normal-form(Prop Calc), deterministic, transduction
     #exampleMG1() # 1-normal-form(Stabler&Yu)
-    #exampleR1()  # composition
-    #exampleR2()  # composition
-    #exampleR3()  # composition
-    example6()    # composition
+    #exampleR1()
+    #exampleR2()
+    #exampleR3()
+    example6()    # 1-normal-form(M) o 1-normal-form(N)
+
