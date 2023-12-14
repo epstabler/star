@@ -387,9 +387,7 @@ class Ubutt:
           Then, we return (a variant of) the "official" notation in
             the returned rules.  For Engelfriet&al the composed states
             of the official notation are atoms that contain brackets:
-            q<q1...qn>.  For us, the official notation is just the
-            string representation of the unofficial state tree up to
-            depth 1, i.e. '(q (q1 ) ... (qn ))'.
+            q<q1...qn>.
 
         The reason for converting to this "official" notation, where the
             state is an atom, is so that, even in repeated compositions,
