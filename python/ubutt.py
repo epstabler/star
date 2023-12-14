@@ -942,13 +942,12 @@ def example6():
         officialForm.prettyRules()
 
 if __name__ == '__main__':
-    #example0()   # identity transducer, deterministic, transduction
-    #example1()   # identity transducer, deterministic, transduction
-    #example2()   # 1-normal-form(M from Example 16), deterministic, transduction
-    #example3()   # 1-normal-form(Prop Calc), deterministic, transduction
-    #exampleMG1() # 1-normal-form(Stabler&Yu)
-    #exampleR1()
-    #exampleR2()
-    #exampleR3()
-    example6()    # 1-normal-form(M) o 1-normal-form(N)
-
+    #example0()   # id-transduce, deterministic, transduce
+    #example1()   # id-transduce, deterministic, transduce
+    #example2()   # convert to 1-n form (EL&M Example 16), deterministic, transduce
+    #example3()   # convert to 1-n form (Prop Calc example), deterministic, transduce
+    #exampleMG1() # convert to 1-n form (Stabler&Yu example)
+    #exampleR1()  # compose
+    #exampleR2()  # compose
+    #exampleR3()  # compose
+    example6()  # compose
