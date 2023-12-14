@@ -561,9 +561,7 @@ def evalsToTrue(c, bindings):
     if c == 'True':
         return True
     else:
-        print('TMP bindings =',repr(bindings))
         sbindings = [b for b in bindings if len(b[0]) > 1 and b[0][0:2] in ['LV','SV']]
-        print('TMP sbindings =',repr(sbindings))
         return eval(c, dict(sbindings))
 
 def composeBoolStr(B1,B2):
@@ -910,7 +908,7 @@ if __name__ == '__main__':
     #example2()   # 1-normal-form(M from Example 16), deterministic, transduction
     #example3()   # 1-normal-form(Prop Calc), deterministic, transduction
     #exampleMG1() # 1-normal-form(Stabler&Yu)
-    #exampleR1()
-    #exampleR2()
-    #exampleR3()
-    example6()    # 1-normal-form(M) o 1-normal-form(N)
+    #exampleR1()  # composition
+    #exampleR2()  # composition
+    #exampleR3()  # composition
+    example6()    # composition
