@@ -99,8 +99,8 @@ as in this very slightly more elaborate example:
 The EL&M def of M∘N requires M but not N to be 1-normal, as in Example 20.
 As EL&M note, this makes the definition simpler.
 
-To calculate compositions, like (M∘N)∘O,
-we compute 1n(M)∘N, then 1n(1n(M)∘N), and so on...
+For iterated compositions, ...(M∘N)∘O...,
+we compute 1n(M)∘1n(N), then epsilonOut after R3 and 1n after R2
 
     -------------------- Implementation details
 
