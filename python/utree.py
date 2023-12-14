@@ -1,20 +1,23 @@
 # utree.py -- unranked tree
 # This data structure is used by unranked tree transducers
 #   in duxmbutt.py and ot.py
-
-import sys, re
+import re
 
 class U(list):
     r"""
     This U tree structure is a stripped down version of NLTK Tree,
-    but with root(self) instead of label(self), and we add:
+    but where the node labels must be strings, with:
 
-          children(self): returns children of self
+          self._root = root label, a string
+
+          self._children = list of child utrees
 
           subtrees(self): returns all subtrees of self
 
           symbolSubtrees(self): returns all subtrees of self
              with input/output symbol at root
+
+          states(self): returns labels beginning with 'q' of every node in self
 
           labels(self): returns labels of every node in self
 
@@ -25,17 +28,21 @@ class U(list):
     U(root, children) constructs a new tree with the
     specified root label and list of children.
 
-    As in NLTK Trees, in U trees the root labels are unranked.
-    That is, there is no assumption that each symbol is uniquely
-    ranked.
+    !! We reserve node labels beginning with q and ( as states
+
+    !! We reserve node labels beginning with TV as variables ...
+       (usually: 0-ary tree variables, i.e. variables over trees)
+
+    As in NLTK Trees, in U trees the root labels are unranked --
+    i.e. there is no assumption that each label has a fixed, unique rank.
 
     NLTK need not be imported, but in case it is,
-    you can draw a U t with Tree.fromstring(str(t)).draw()
+    you can draw a U tree t with Tree.fromstring(str(t)).draw()
     """
     def __init__(self, node, children=None):
-        if children is None:
+        if not(isinstance(node,str)) or children is None:
             raise TypeError(
-                "%s: Expected a node value and child list " % type(self).__name__
+                "%s: Expected a string node value and child list " % type(self).__name__
             )
         elif isinstance(children, str):
             raise TypeError(
@@ -52,24 +59,28 @@ class U(list):
             other._root,
             list(other),
             )
-    
-    def root(self):
-        return self._root
-
-    def children(self):
-        return self._children
 
     def subtrees(self):
         result = [self]
         for c in self._children: result.extend(c.subtrees())
         return result
 
+    def isState(self):
+        return self._root[0:1] in ['q','(']
+
+    def isVar(self):
+        return self._root[0:2] in ['TV','LV']
+
+    def isSymbol(self):
+        return not(self.isState()) and not(self.isVar())
+
     def symbolSubtrees(self):
-        """ distinguishing states from symbols by requirement that state._root begins with 'q' """
-        result = [self]
-        if self._root and self._root[0] != 'q':
-            result = [self]
-            for c in self._children: result.extend(c.symbolSubtrees())
+        """ return subtrees with symbol at root, including embedded ones """
+        result = []
+        if self.isSymbol():
+            result.append(self)
+        for c in self._children:
+            result.extend(c.symbolSubtrees())
         return result
 
     def labels(self):
@@ -77,6 +88,62 @@ class U(list):
         for t in self._children:
             labels.extend(t.labels())
         return labels
+
+    def states(self):
+        """ return subtrees with state at root, including embedded ones """
+        s = []
+        if self.isState():
+            s.append(self._root)
+        for c in self._children:
+            s.extend(c.states())
+        return s
+
+    def statesArities(self):
+        """ return (root,arity) of subtrees with state at root, including embedded ones """
+        sa = []
+        if self.isState():
+            sa.append((self._root,len(self._children)))
+        for c in self._children:
+            sa.extend(c.statesArities())
+        return sa
+
+    def symbols(self):
+        """ return symbol occurrences in utree """
+        s = []
+        if self.isSymbol():
+            s.append(self._root)
+        for c in self._children:
+            s.extend(c.symbols())
+        return s
+
+    def symbolCount(self):
+        """ return count of symbol occurrences in utree """
+        cnt = 0
+        if not(self.isState()) and not(self.isVar()):
+            cnt = 1
+        for c in self._children:
+            cnt += c.symbolCount()
+        return cnt
+
+    def vars(self):
+        """ return vars of utree, a (possibly empty) list of utrees """
+        if self.isVar():
+            return [self]
+        else:
+            vars = []
+            for c in self._children:
+                vars.extend(c.vars())
+            return vars
+
+    def varsAndStates(self):
+        """ return states and vars of utree, a (possibly empty) list of utrees """
+        if self.isVar() or self.isState():
+            return [self]
+        else:
+            vars = []
+            for c in self._children:
+                vars.extend(c.varsAndStates())
+            return vars
 
     def leaves(self):
         leaves = []
@@ -86,6 +153,26 @@ class U(list):
             else:
                 leaves.append(child)
         return leaves
+
+    def makeOfficial(self):
+        """ in computing ubutt compositions,
+            transform input/output trees into "official" notation,
+            using inverse of the bijection
+            that (Engelfriet&al'09, pp581f) call "phi".
+
+            So a tree with M-root q and the N-roots of its children q1...qn
+            is converted to the single node with root '(q (q1 ) ... (qn ))',
+            and, as its children, all the grandchildren, in order.
+        """
+        if self.isState():
+            if not(all([c.isState() for c in self._children])):
+                raise RuntimeError('utree.py: makeOfficial unexpected nonstate')
+            grandchildren = [item for sublist in [y._children for y in self._children] for item in sublist]
+            childrenEmptied = [U(c._root,[]) for c in self._children]
+            newRoot = str(U(self._root, childrenEmptied))
+            return U(newRoot,grandchildren)
+        else:
+            return U(self._root,[c.makeOfficial() for c in self._children])
 
     def __copy__(self):
         return self.copy()
@@ -284,7 +371,7 @@ class U(list):
         """
           where self can contain label variables (LV0, LV1,.., SV0, SV1,...)
                                  and tree variables (TV0, TV1,...),
-          appending any new bindings to bindingsIn,
+          append any new bindings to bindingsIn,
           recursing through subtress and returning the result,
           if there is a match, else None
 
@@ -354,23 +441,26 @@ class U(list):
         """
           where self can contain variable roots (LV0, LV1,..)
                                    and subtrees (TV0, TV1,...),
-          those variables are replaced by their bindings,
+          those variables are replaced by their bindings, if any,
           recursing through subtress and returning the result.
 
         This is a python-style map through U.
         """
         if self._root[0:2] == 'LV' and self._root[2:].isdigit(): # label variable
             newRoot = val(self._root, bindings)
+            if newRoot == None: newRoot = self._root
             return(U(newRoot, [t.instantiate(sbindingsDict) for t in self._children]))
 
         elif self._root[0:2] == 'TV' and self._root[2:].isdigit(): # tree variable
             newTree = val(self, bindings)
+            if newTree == None: newTree = self
             return(newTree)
 
         elif len(self._children) == 1 and \
              self._children[0]._root[0:2] == 'ST' and \
              self._children[0]._root[2:].isdigit():  # star trees variable
             subTrees = val(self._children[0]._root, bindings)
+            if subTrees == None: subTrees = self._children
             newTree = U(self._root, subTrees)
             return(newTree)
 
@@ -388,8 +478,8 @@ def val(key,bindings):
     for b in bindings:
         if b[0] == key:
             return b[1]
-    # else
-    print('val ERROR -- key = %r \nbindings = %r' % (key, bindings))
+    # else...
+    # print('utree.val WARNING -- no binding for key = %r \nbindings = %r' % (key, bindings))
 
 def test0():
     """ simple test of labels """
@@ -470,6 +560,8 @@ def test2d():
 
 def test2e():
     """ simple test of match and instantiate """
+
+    # here, the bindings returned by match is a list of pairs of trees
     bindings = U('a', [U('TV0',[]),U('TV1',[])]).match(U('a', [U('b',[]),
                                                                U('PredP',
                                                                  [U('Pred',
@@ -477,6 +569,7 @@ def test2e():
                                                                   U('DP',
                                                                     [U('shamhradh',[])])])]), [])
 
+    # now apply those bindings to this simple tree with the 2 variables in it
     result = U('result', [U('TV0',[]),
                            U('TV1',[])]).instantiate(bindings)
 

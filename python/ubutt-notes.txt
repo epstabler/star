@@ -1,0 +1,130 @@
+Notes on "Extended multi bottom–up tree transducers:
+          Composition and decomposition"
+     by Joost Engelfriet · Eric Lilin · Andreas Maletti
+     Acta Informatica (2009) 46:561–590
+    --------------------
+EXAMPLE 16: Converting M to 1-normal form. Pages 577f.
+
+    M.1: σ(α) → q(α)
+      2: σ(q(x1)) → q(γ(x1,α))
+
+NB: M has 1 state = {q}
+    M.1 has exactly 3 symbols
+    M.2 also has 3
+
+The 1-normal form of M,
+
+1n(M).1: q2 → q(α)
+      2: q4(x1) → q3(x1,α)
+      3: σ(q(x1)) → q4(x1)
+      4: q3(x1,x2) → q(γ(x1,x2)).
+      5: α → q1
+      6: σ(q1) → q2
+
+NB:  1n(M).states() = {q,q1,q2,q3,q4}
+     Every rule of 1n(M) has exactly 1 symbol
+    --------------------
+EXAMPLE 20: Computing 1n(M)∘N. Pages 583f.
+
+    N.1: α → h(α)
+      2: h(x1) → h(δ(x1))
+      3: γ(h(x1), h(x2)) → g(γ (x1, x2))
+
+NB:  N has 2 states = {g,h}
+     Rule N.1 has 2 symbols.
+          N.2 has 1
+          N.3 has 2
+
+The paper shows some rules of 1n(M)∘N in 2 equivalent forms:
+
+1n(M)∘N.1: α → q1⟨⟩                    ** "official form" **
+        2: σ(q1⟨⟩) → q2⟨⟩
+        3: q2⟨⟩ → q⟨h⟩(α)
+        4: q⟨h⟩(x1) → q⟨h⟩(δ(x1))
+        5: σ(q⟨h⟩(x1)) → q4⟨h⟩(x1)
+        6: q4⟨h⟩(x1) → q3⟨h, h⟩(x1, α)
+        7: q3⟨h, h⟩(x1, x2) → q⟨g⟩(γ (x1, x2))
+        ... and more rules, not shown in the paper
+
+1n(M)∘N.1: α → q1                     ** "unofficial form" **
+        2: σ(q1) → q2
+        3: q2 → q(h(α)) 
+        4: q(h(x1)) → q(h(δ(x1)))
+	5: σ(q(h(x1))) → q4(h(x1))
+	6: q4(h(x1)) → q3(h(x1), h(α))
+	7: q3(h(x1), h(x2)) → q(g(γ (x1, x2)))
+        ... and more rules, not shown in the paper
+
+Checking their work on this example (showing unofficial form here):
+   By R1: 1n(M)∘N.1  = 1n(M).5 since α and q1 both 0-ary
+   By R1: 1n(M)∘N.2  = 1n(M).6 since q1 and q2 both 0-ary
+   By R3: 1n(M)∘N.3  From 1n(M).1 and N.1
+   By R2: 1n(M)∘N.4  From N.3
+   By R1: 1n(M)∘N.5  From 1n(M).3 since q and q4 are 1-ary
+   By R3: 1n(M)∘N.6  From 1n(M).2 and N.1
+   By R3: 1n(M)∘N.7  From 1n(M).4 and N.3
+
+    --------------------  More small examples
+
+The slides for a 2008 Kyoto talk by EL&M
+  https://www.informatik.uni-leipzig.de/alg/pub/slides/2008-09-16.pdf
+present small examples for each of R1-3 on slide 23.
+
+Fixing a typo in those slides, the example EL&M meant to present of
+the R2 case of xmbutt composition is:
+
+    Epsilon rule of N and resulting rule (in "unofficial" form):
+
+                        p1 → p(δ)
+
+          q1(p1,p2(x1,x2)) → q1(p(δ),p2(x1,x2))
+
+That is a simple case. Note that R2 sometimes uses a rule multiple times,
+as in this very slightly more elaborate example:
+
+    Epsilon rule of N and resulting rules (in "unofficial" form):
+
+          p1(x1,x2) → p(δ(x2))
+
+          q1( p1(x1,x2), p1(x3,x4) ) → q1( p1(x1,x2),  p(δ(x4))  )
+          q1( p1(x1,x2), p1(x3,x4) ) → q1(  p(δ(x2)), p1(x3,x4)) )
+          q1( p1(x1,x2), p1(x3,x4) ) → q1(  p(δ(x2)),  p(δ(x4))  )
+
+    -------------------- A restricted definition of composition
+
+The EL&M def of M∘N requires M but not N to be 1-normal, as in Example 20.
+As EL&M note, this makes the definition simpler.
+
+But we want to use their simple definition to calculate compositions
+like (M∘N)∘O, in which case we want not only M but also M∘N to be 1-normal.
+So we could compute 1n(M)∘N, then 1n(1n(M)∘N), and so on...
+
+But note that M∘N will already be in 1-normal form if both M and N are.
+So our implementation converts all the original machines to 1-normal form,
+eliminating the need to convert intermediate compositions to 1-normal.
+
+EL&M do not show 1n(N) in their Example 20, but we easily calculate:
+
+  1n(N).1: α → q2
+        2: q2 → h(α)
+        3: h(x1) → h(δ(x1))
+        4: γ(h(x1), h(x2)) → q3(x1 x2)
+	5: q3(x1,x2) → g(γ(x1, x2))
+
+    -------------------- Implementation details
+
+In our implementation, states are strings beginning with 'q', or '(',
+variables are 'TV' or 'LV' (for resp. trees, labels) followed by ≥1 digits,
+while symbols are strings that do not begin with 'q', '(', 'TV', or 'LV'.
+
+The reason for allowing '(' in state names is for the "official" form
+of states in our composed transducers, in which the composed states are
+the print strings of the depth 1 state tree (where root has depth 0).
+Also, in the implementation, variables are numbered from 0.
+
+So where EL&M have the unofficial left side of one of their rules
+    q3(h(x1),h(x2))
+which corresponds to their official
+    q3⟨h, h⟩(x1, x2),
+we use the official form:
+    ('(q3 (qh ) (qh ))' (TV0 ) (TV1 ))
