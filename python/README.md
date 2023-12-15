@@ -1,6 +1,6 @@
 # Tree transducers and *-MG parser
 
-The files in this directory have some long examples that test and
+The *test* files in this directory have some long examples that test and
 explain what has been implemented here.  (And runtime details about
 steps of the computations is provided by editing the files to set
 VERBOSE = True.)  Studying these examples, in order, is a good way to
