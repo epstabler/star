@@ -144,7 +144,7 @@ def example2():
     fst1 = fst.oneNormalize(fst.states())
     print('1-normal form:')
     fst1.prettyRules()
-    print('\nAssuming all states final, 1-normal(Example 16) deterministic? %s\n' % str(fst1.isDeterministic()))
+    print('\n1-normal(Example 16) deterministic? %s\n' % str(fst1.isDeterministic()))
     print("Unlike the duxmbutt Example 16, 1-normal(Example 16) is a dumbutt.")
     print("1-normal(Example 16) transduces Tree1 to:\n")
     Tree3 = fst1.dTransduce(Tree1)
@@ -282,7 +282,7 @@ def example6():
 """
     gM = Ubutt(lines2rules(M), ['q'])
     gM.prettyRules()
-    print('\nAssuming all states final, is M deterministic? %s\n' % str(gM.isDeterministic()))
+    print('\nIs M deterministic? %s\n' % str(gM.isDeterministic()))
     print("\nTransducer M maps this tree, Tree1,\n")
     Tree1 = U('sigma',[U('sigma',[U('alpha',[])])])
     print(Tree1)
@@ -336,13 +336,48 @@ def example6():
         print('This composition is 1-normal:')
         officialForm.prettyRules()
 
+def example7():
+    print("Consider this xmbutt:\n")
+    M = """
+(alpha (TV0 )) -> (q1 (TV0 ))
+(q1 (TV0 )) -> (q3 (TV0 ))
+(q1 (TV0 )) -> (q2 (TV0 ))
+"""
+    gM = Ubutt(lines2rules(M), ['q1'])
+    gM.prettyRules()
+    print()
+    gM.isOneNormal()
+    print("\nAfter epsilons removed:")
+    gOK = gM.epsilonsOut()
+    gOK.prettyRules()
+    gOK.isOneNormal()
+
+def example7a():
+    print("Consider this xmbutt:\n")
+    M = """
+(alpha (TV0 )) -> (q1 (TV0 ))
+(q1 (TV0 )) -> (q3 (sigma (TV0 )))
+(q1 (TV0 )) -> (q3 (TV0 ))
+(q1 (TV0 )) -> (q2 (TV0 ))
+"""
+    gM = Ubutt(lines2rules(M), ['q1'])
+    gM.prettyRules()
+    print()
+    gM.isOneNormal()
+    print("\nAfter epsilons removed:")
+    gOK = gM.epsilonsOut()
+    gOK.prettyRules()
+    gOK.isOneNormal()
+
 if __name__ == '__main__':
     #example0()   # id-transduce, deterministic, transduce
     #example1()   # id-transduce, deterministic, transduce
     #example2()   # convert to 1-n form (EL&M Example 16), deterministic, transduce
     #example3()   # convert to 1-n form (Prop Calc example), deterministic, transduce
     #exampleMG1() # convert to 1-n form (Stabler&Yu example)
+    #example7()   # epsilonsOut
+    #example7a()   # epsilonsOut
     #exampleR1()  # compose
     #exampleR2()  # compose
     #exampleR3()  # compose
-    example6()  # compose
+    example6()   # compose

@@ -3,8 +3,8 @@ import itertools
 from utree import *
 
 # **IN PROGRESS**
-# TODO: Urule.epsilonOut (see Prop 10)
 # TODO: Ubutt.accept(tree) (dTransduce w backtracking first? then chart?)
+# TODO: generalize M.o(N) for *-extended N
 
 VERBOSE = False
 VERBOSE = True
@@ -511,7 +511,46 @@ class Ubutt:
         return newButt.oneNormalize(newButt.states())
 
     def epsilonsOut(self):
-        return self
+        epsilons, newRules = [], []
+        for r in self._rules:
+            if r._left.symbolCount() == 0 and r._right.symbolCount() == 0:
+                epsilons.append(r)
+            else:
+                newRules.append(r)
+
+        if epsilons:
+            if VVERBOSE:
+                print('epsilon rules to be removed:')
+                for e in epsilons:
+                    print('  ',e.prettyString())
+                print('epsilon states to be removed from:')
+                for r in newRules:
+                    print('  ',r.prettyString())
+        else:
+            return(self) # shortcut
+
+        addRules = set([])
+        removeRules = set([])
+
+        for r in newRules:
+            for e in epsilons:
+                if [n for n in newRules if e._right._root == n._right._root]:
+                    epsilonRightStateOnlyCreatedByEpsilonRules = False
+                else:
+                    epsilonRightStateOnlyCreatedByEpsilonRules = True
+                if r._right.isState():
+                    b = e._left.match(r._right, [])
+                    if b != None:
+                        newRule = Urule(r._left, e._right.instantiate(b), r._conds, r._weight)
+                        addRules.add(newRule)
+                        # is e._right produced by any non-epsilon rules?
+                        for r in newRules:
+                            if epsilonRightStateOnlyCreatedByEpsilonRules:
+                                removeRules.add(r)
+
+        for r in removeRules: newRules.remove(r)
+        newRules.extend(addRules)
+        return Ubutt(newRules, self._finals)
 
     def prettyRules(self):
         """ write the transitions in a pretty form """
