@@ -336,7 +336,7 @@ def example6():
         print('This composition is 1-normal:')
         officialForm.prettyRules()
 
-def example7():
+def example4():
     print("Consider this xmbutt:\n")
     M = """
 (alpha (TV0 )) -> (q1 (TV0 ))
@@ -352,7 +352,7 @@ def example7():
     gOK.prettyRules()
     gOK.isOneNormal()
 
-def example7a():
+def example4a():
     print("Consider this xmbutt:\n")
     M = """
 (alpha (TV0 )) -> (q1 (TV0 ))
@@ -374,9 +374,9 @@ if __name__ == '__main__':
     #example1()   # id-transduce, deterministic, transduce
     #example2()   # convert to 1-n form (EL&M Example 16), deterministic, transduce
     #example3()   # convert to 1-n form (Prop Calc example), deterministic, transduce
+    #example4()   # epsilonsOut
+    #example4a()   # epsilonsOut
     #exampleMG1() # convert to 1-n form (Stabler&Yu example)
-    #example7()   # epsilonsOut
-    #example7a()   # epsilonsOut
     #exampleR1()  # compose
     #exampleR2()  # compose
     #exampleR3()  # compose

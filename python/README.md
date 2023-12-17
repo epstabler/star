@@ -1,6 +1,6 @@
 # Tree transducers and *-MG parser
 
-The *test* files in this directory have some long examples that test and
+The *test* files in this directory have some long examples that
 explain what has been implemented here.  (And runtime details about
 steps of the computations is provided by editing the files to set
 VERBOSE = True.)  Studying these examples, in order, is a good way to
@@ -23,11 +23,11 @@ This module is based on the NLTK class Tree, but
 match and instantiate operations are added, among other things.
 
 NLTK is not needed to use this code, unless you want graphical tree
-display. Conversion to and from NLTK Trees can be done via their
+display. Conversion to and from NLTK Trees can be done via the
 string representations, so NLTK graphical display is available with
 this conversion.
 
-Note that the very common representation of trees as data structures
+Note that the very common representation of trees as data struactures
 with a node label and a list of (0 or more) children is already an
 unranked tree data structure. That is, there is no assumption that
 each symbol has a unique rank.  This contrasts with successor-based
@@ -48,28 +48,19 @@ See comments in that file and the many other examples there at the bottom of the
 See umbutts/ for example grammars, and umbutts/\*Star\* for *- and +- extended examples.
 \*-extended U transducer rules can apply to any number of children.
 This is in effect a kind of polymorphism: the function defined by
-these rules can operate on nodes labeled X regardless of its
+these rules can operate on nodes labeled X regardless of
 arity. This *-extension is implemented by putting subtrees into a
 variable which is tested in a Boolean "condition" on the rule. The
 implementation is currently not enforcing restrictions on the
 definition of those condiitons, but when conditions conform to the
 standard definition of * or +, the ubutt is finite state.
 
-Note how the examples are pretty-printed strings that are parsed into a list of
-rules, where each rule is a 4-tuple (treeIn, treeOut, conditions, weight).
-
-The conditions are boolean tests on bound variables in the rules,
+The conditions are (string representations of)
+boolean tests on bound variables in the rules,
 conditions that use only builtin Python operations, so ``'True'`` is
-the empty condition. The conditions are represented as strings to
-facilitate binding of variables, and then they are evaluated with
-Python's `eval(conditions, bindings)` function.  For details, see code
-and comments.
-
-For VERBOSE output, set ``VERBOSE = True`` in ``ubutt.py``
-
-NLTK does not need to be loaded to use this code, unless you want
-graphical displays of trees. (In that case, if you don't already have
-NLTK, ``pip install nltk``).
+the empty condition. With conditions as strings, we can
+bind the variables, and then evaluate with
+Python's `eval(conditions, bindings)`.
 
 ## OT via composition and pruning: ot.py
 
