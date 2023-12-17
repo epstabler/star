@@ -4,7 +4,8 @@ import re
 class U(list):
     r"""
     This U tree structure is a stripped down version of NLTK Tree,
-    but where the node labels must be strings, with:
+    but where the node labels must be strings,
+    and many new functions are provided, including:
 
           self._root = root label, a string
 
@@ -26,16 +27,15 @@ class U(list):
     U(root, children) constructs a new tree with the
     specified root label and list of children.
 
-    !! We reserve node labels beginning with q and ( as states
+    !! We reserve node labels beginning with q as states
 
-    !! We reserve node labels beginning with TV as variables ...
-       (usually: 0-ary tree variables, i.e. variables over trees)
+    !! We reserve node labels beginning with TV, IV as variables ...
 
     As in NLTK Trees, in U trees the root labels are unranked --
     i.e. there is no assumption that each label has a fixed, unique rank.
 
-    NLTK need not be imported, but in case it is,
-    you can draw a U tree t with Tree.fromstring(str(t)).draw()
+    NLTK Tree need not be imported, but in case it is,
+    you can draw a Utree t with Tree.fromstring(str(t)).draw()
     """
     def __init__(self, node, children=None):
         if not(isinstance(node,str)) or children is None:
