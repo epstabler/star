@@ -55,13 +55,8 @@ class Urule:
 
     def oneNormalizeLeft(self, states, stateTrees, butt):
         """
-        Given butt rule,
-        in which, on left, no input symbols occur below any state symbol, and
-                 on right, only one state symbol, at root,
-        augment the states and (initially empty) butt in place
-        until umbutt has corresponding 1-normal left sides.
-
-        Using construction in Lemma 14 of Engelfriet&al'09 (p576)
+        convert the left side of a ubutt rule to 1-normal form
+        using construction in Lemma 14 of Engelfriet&al'09 (p576)
         """
         lcnt = self._left.symbolCount()
 
@@ -109,11 +104,8 @@ class Urule:
 
     def oneNormalizeRight(self, states, butt):
         """
-        Given uxmbutt rule self,
-        augment the states and (initially empty) butt in place
-        until butt has corresponding 1-normal rules
-
-        Using the construction in proof of Thm 15 in Engelfriet&al'09 (p577)
+        Convert the right side of a ubutt rule to 1 normal form
+        using the construction in proof of Thm 15 in Engelfriet&al'09 (p577)
         """
         cnt = self._left.symbolCount() + self._right.symbolCount()
         if VVERBOSE: print('\n%d symbols in %s' % (cnt, self.prettyString()))
