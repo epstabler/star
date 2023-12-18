@@ -3,7 +3,8 @@ import itertools
 from utree import *
 
 # **IN PROGRESS**
-# TODO: Ubutt.accept(tree) (dTransduce w backtracking first? then chart?)
+# TODO: Ubutt.nonempty() -- any final state reachable?
+# TODO: Ubutt.transduce(tree) -- dTransduce w backtracking?
 # TODO: generalize M.o(N) for *-extended N
 
 VERBOSE = False
