@@ -4,6 +4,8 @@ Kleene-* extensions of MG, OT interface, implementing ideas from
 
 ** preliminary implementations, in progress **
 
+** A related project, partly replicating this one, has started in ../mgt **
+
 ## prolog/ 
 
 Simple, first SWI-Prolog 9.x implementation of rule R and a simple syntax to prosodic structure transducer that derives the prosodic structures in Figure 1b and Figure 5.
